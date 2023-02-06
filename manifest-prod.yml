@@ -1,10 +1,11 @@
 ---
 applications:
-  - name: ccte-bioactivity
+  - name: ccte-bioactivity-prod
     routes:
 #      - route: ccte-api-p.app.cloud.gov
-      - route: ccte-bioactivity-p.app.cloud.gov
-      - route: ccte-api-p.app.cloud.gov/bioactivity
+      #- route: ccte-bioactivity-p.app.cloud.gov
+      - route: api-ccte.epa.gov/bioactivity
+      - route: ccte-api.app.cloud.gov/bioactivity
     memory: 2G
     instances: 1
     random-route: false
@@ -12,4 +13,4 @@ applications:
     buildpacks:
     - https://github.com/cloudfoundry/java-buildpack
     env:
-      SPRING_PROFILES_ACTIVE: cloud
+      SPRING_PROFILES_ACTIVE: cloud,apikey
