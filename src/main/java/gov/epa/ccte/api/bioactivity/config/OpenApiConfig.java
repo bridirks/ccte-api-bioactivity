@@ -21,7 +21,9 @@ import io.swagger.v3.oas.annotations.servers.Server;
                         email = ""),
                 version = "1.0.0"
         ),
-        servers = @Server(url = "http://api-ccte.epa.gov")
+        servers = { @Server(url = "https://api-ccte.epa.gov", description = "Production Environment"),
+                @Server(url = "https://ccte-api-s.epa.gov", description = "Staging Environment")
+        }
 )
 @SecurityScheme(
         type = SecuritySchemeType.APIKEY,
