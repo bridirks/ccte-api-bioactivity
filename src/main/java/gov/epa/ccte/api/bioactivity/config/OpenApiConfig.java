@@ -14,11 +14,11 @@ import io.swagger.v3.oas.annotations.servers.Server;
 @OpenAPIDefinition(
         info = @Info(
                 title = "Computational Toxicology and Exposure Data APIs - Bioactivity",
-                description = "This is the part of CCTE Public APIs and provides bioactivity data through a set of API endpoints.",
+                description = "The Bioactivity APIs are part of a set of public computational toxicology and exposure APIs and provide bioactivity data through a set of API endpoints.",
                 contact = @Contact(
                         name = "",
                         url = "",
-                        email = "ccte_api@epa.gov"),
+                        email = ""),
                 version = "1.0.0"
         ),
         servers = @Server(url = "http://api-ccte.epa.gov")
