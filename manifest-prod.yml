@@ -5,7 +5,7 @@ applications:
 #      - route: ccte-api-p.app.cloud.gov
       #- route: ccte-bioactivity-p.app.cloud.gov
       - route: api-ccte.epa.gov/bioactivity
-      - route: ccte-api.app.cloud.gov/bioactivity
+      #- route: ccte-api.app.cloud.gov/bioactivity
     memory: 2G
     instances: 1
     random-route: false
