@@ -1,8 +1,6 @@
 package gov.epa.ccte.api.bioactivity.config.swagger;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import gov.epa.ccte.api.bioactivity.springdocexamples.BioactivityExample;
 import io.swagger.v3.oas.models.examples.Example;
 import org.springframework.beans.factory.annotation.Value;

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import gov.epa.ccte.api.bioactivity.dto.BioactivityDto;
 
-import javax.validation.constraints.Size;
 import java.time.Instant;
 
 public class BioactivityExampleDto extends BioactivityDto {
