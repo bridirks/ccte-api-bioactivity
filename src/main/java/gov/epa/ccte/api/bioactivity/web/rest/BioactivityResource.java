@@ -5,6 +5,11 @@ import gov.epa.ccte.api.bioactivity.dto.BioactivityDto;
 import gov.epa.ccte.api.bioactivity.dto.mapper.BioactivityMapper;
 import gov.epa.ccte.api.bioactivity.repository.BioactivityRepository;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -42,8 +47,15 @@ public class BioactivityResource {
      */
     @Operation(summary = "Get bioactivity data by dtxsid")
     @RequestMapping(value = "bioactivity/search/by-dtxsid/{dtxsid}", method = RequestMethod.GET)
+    @ApiResponses(value= {
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(examples =
+                    {
+                            @ExampleObject(name = "200-found-bioactivity-dtxsid", ref = "#/components/examples/bioactivity-by-dtxsid-DTXSID0021125"),
+                            @ExampleObject(name = "200-bioactivity-dtxsid-search-not-found", ref = "#/components/examples/empty-result-set-dtxsid"),
+                    }))
+    })
     public @ResponseBody
-    List<BioactivityDto> bioactivityByDtxsid(@PathVariable("dtxsid") String dtxsid) throws IOException {
+    List<BioactivityDto> bioactivityByDtxsid(@Parameter(required = true, description = "DSSTox Substance Identifier", example = "DTXSID0021125") @PathVariable("dtxsid") String dtxsid) throws IOException {
 
         log.debug("dtxsid = {}", dtxsid);
         List<Bioactivity> data = repository.findByDtxsid(dtxsid);
@@ -61,8 +73,15 @@ public class BioactivityResource {
      */
     @Operation(summary = "Get bioactivity data by aeid")
     @RequestMapping(value = "bioactivity/search/by-aeid/{aeid}", method = RequestMethod.GET)
+    @ApiResponses(value= {
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(examples =
+                    {
+                            @ExampleObject(name = "200-found-bioactivity-dtxsid", ref = "#/components/examples/bioactivity-by-aeid-1386"),
+                            @ExampleObject(name = "200-bioactivity-dtxsid-search-not-found", ref = "#/components/examples/empty-result-set-aeid"),
+                    }))
+    })
     public @ResponseBody
-    List<BioactivityDto> bioactivityByAeid(@PathVariable("aeid") Integer aeid) throws IOException {
+    List<BioactivityDto> bioactivityByAeid(@Parameter(required = true, description = "Numeric assay endpoint identifier", example = "1386") @PathVariable("aeid") Integer aeid) throws IOException {
 
         log.debug("aeid = {}", aeid);
 
