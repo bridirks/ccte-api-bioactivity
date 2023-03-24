@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 @SecurityRequirement(name = "api_key")
 @Slf4j
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class BioactivityResource {
 
     final private BioactivityRepository repository;
@@ -50,8 +50,8 @@ public class BioactivityResource {
     @ApiResponses(value= {
             @ApiResponse(responseCode = "200", description = "OK", content = @Content(examples =
                     {
-                            @ExampleObject(name = "200-found-bioactivity-dtxsid", ref = "#/components/examples/bioactivity-by-dtxsid-DTXSID0021125"),
-                            @ExampleObject(name = "200-bioactivity-dtxsid-search-not-found", ref = "#/components/examples/empty-result-set-dtxsid"),
+                            @ExampleObject(name = "DTXSID0021125", ref = "#/components/examples/bioactivity-by-dtxsid-DTXSID0021125"),
+                            @ExampleObject(name = "Not Found", ref = "#/components/examples/empty-result-set-dtxsid"),
                     }))
     })
     public @ResponseBody
@@ -76,8 +76,8 @@ public class BioactivityResource {
     @ApiResponses(value= {
             @ApiResponse(responseCode = "200", description = "OK", content = @Content(examples =
                     {
-                            @ExampleObject(name = "200-found-bioactivity-dtxsid", ref = "#/components/examples/bioactivity-by-aeid-1386"),
-                            @ExampleObject(name = "200-bioactivity-dtxsid-search-not-found", ref = "#/components/examples/empty-result-set-aeid"),
+                            @ExampleObject(name = "1386", ref = "#/components/examples/bioactivity-by-aeid-1386"),
+                            @ExampleObject(name = "Not Found", ref = "#/components/examples/empty-result-set-aeid"),
                     }))
     })
     public @ResponseBody

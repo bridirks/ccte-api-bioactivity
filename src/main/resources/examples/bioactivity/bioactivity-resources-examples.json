@@ -162,8 +162,7 @@
         "tissue": "ova",
         "assayDescription": "Tanguay_ZF_120hpf is a whole embryo, multiplexed endpoint assay using zebrafish larvae exposed for 120 hr",
         "geneInfo": "[{\"entrez_gene_id\":null,\"gene_name\":null,\"gene_symbol\":null,\"taxon_name\":null,\"common_name\":null,\"gene_url\":null}]",
-        "extUniprotAccesnNum": null,
-        "createdDt": "2021-05-13T12:08:27.919391Z"
+        "extUniprotAccesnNum": null
       },
       {
         "id": 3966,
@@ -311,8 +310,7 @@
         "tissue": "ova",
         "assayDescription": "Tanguay_ZF_120hpf is a whole embryo, multiplexed endpoint assay using zebrafish larvae exposed for 120 hr",
         "geneInfo": "[{\"entrez_gene_id\":null,\"gene_name\":null,\"gene_symbol\":null,\"taxon_name\":null,\"common_name\":null,\"gene_url\":null}]",
-        "extUniprotAccesnNum": null,
-        "createdDt": "2021-05-13T12:08:27.919391Z"
+        "extUniprotAccesnNum": null
       },
       {
         "id": 7239,
@@ -460,8 +458,7 @@
         "tissue": "ova",
         "assayDescription": "Tanguay_ZF_120hpf is a whole embryo, multiplexed endpoint assay using zebrafish larvae exposed for 120 hr",
         "geneInfo": "[{\"entrez_gene_id\":null,\"gene_name\":null,\"gene_symbol\":null,\"taxon_name\":null,\"common_name\":null,\"gene_url\":null}]",
-        "extUniprotAccesnNum": null,
-        "createdDt": "2021-05-13T12:08:27.919391Z"
+        "extUniprotAccesnNum": null
       }
     ]
   },
@@ -616,8 +613,7 @@
         "tissue": "ova",
         "assayDescription": "Tanguay_ZF_120hpf is a whole embryo, multiplexed endpoint assay using zebrafish larvae exposed for 120 hr",
         "geneInfo": "[{\"entrez_gene_id\":null,\"gene_name\":null,\"gene_symbol\":null,\"taxon_name\":null,\"common_name\":null,\"gene_url\":null}]",
-        "extUniprotAccesnNum": null,
-        "createdDt": "2021-05-13T12:08:27.919391Z"
+        "extUniprotAccesnNum": null
       },
       {
         "id": 45007,
@@ -765,8 +761,7 @@
         "tissue": "liver",
         "assayDescription": "TOX21_ARE_BLA_Agonist is a cell-based, single-readout assay that uses HepG2, a human liver cell line, with measurements taken at 24 hours after chemical dosing in a 1536-well plate.",
         "geneInfo": "[{\"entrez_gene_id\":null,\"gene_name\":null,\"gene_symbol\":null,\"taxon_name\":null,\"common_name\":null,\"gene_url\":null}]",
-        "extUniprotAccesnNum": null,
-        "createdDt": "2021-05-13T12:08:27.919391Z"
+        "extUniprotAccesnNum": null
       },
       {
         "id": 45229,
@@ -914,8 +909,7 @@
         "tissue": "kidney",
         "assayDescription": "TOX21_AutoFluor_HEK293 is a cell-based, single-readout assay that uses HEK293T, a human kidney cell line, with measurements taken at 24 hours after chemical dosing in a 1536-well plate.",
         "geneInfo": "[{\"entrez_gene_id\":null,\"gene_name\":null,\"gene_symbol\":null,\"taxon_name\":null,\"common_name\":null,\"gene_url\":null}]",
-        "extUniprotAccesnNum": null,
-        "createdDt": "2021-05-13T12:08:27.919391Z"
+        "extUniprotAccesnNum": null
       }
     ]
   }

@@ -4,7 +4,6 @@ import lombok.Data;
 
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.time.Instant;
 
 /**
  * A DTO for the {@link gov.epa.ccte.api.bioactivity.domain.Bioactivity} entity
@@ -189,5 +188,4 @@ public class BioactivityDto implements Serializable {
     private final String geneInfo;
     @Size(max = 32)
     private final String extUniprotAccesnNum;
-    private final Instant createdDt;
 }
