@@ -6,10 +6,6 @@ import gov.epa.ccte.api.bioactivity.dto.mapper.BioactivityMapper;
 import gov.epa.ccte.api.bioactivity.repository.BioactivityRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -47,13 +43,6 @@ public class BioactivityResource {
      */
     @Operation(summary = "Get bioactivity data by dtxsid")
     @RequestMapping(value = "bioactivity/search/by-dtxsid/{dtxsid}", method = RequestMethod.GET)
-    @ApiResponses(value= {
-            @ApiResponse(responseCode = "200", description = "OK", content = @Content(examples =
-                    {
-                            @ExampleObject(name = "DTXSID0021125", ref = "#/components/examples/bioactivity-by-dtxsid-DTXSID0021125"),
-                            @ExampleObject(name = "Not Found", ref = "#/components/examples/empty-result-set-dtxsid"),
-                    }))
-    })
     public @ResponseBody
     List<BioactivityDto> bioactivityByDtxsid(@Parameter(required = true, description = "DSSTox Substance Identifier", example = "DTXSID0021125") @PathVariable("dtxsid") String dtxsid) throws IOException {
 
@@ -73,13 +62,6 @@ public class BioactivityResource {
      */
     @Operation(summary = "Get bioactivity data by aeid")
     @RequestMapping(value = "bioactivity/search/by-aeid/{aeid}", method = RequestMethod.GET)
-    @ApiResponses(value= {
-            @ApiResponse(responseCode = "200", description = "OK", content = @Content(examples =
-                    {
-                            @ExampleObject(name = "1386", ref = "#/components/examples/bioactivity-by-aeid-1386"),
-                            @ExampleObject(name = "Not Found", ref = "#/components/examples/empty-result-set-aeid"),
-                    }))
-    })
     public @ResponseBody
     List<BioactivityDto> bioactivityByAeid(@Parameter(required = true, description = "Numeric assay endpoint identifier", example = "1386") @PathVariable("aeid") Integer aeid) throws IOException {
 
