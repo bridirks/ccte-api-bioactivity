@@ -8,10 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.TestPropertySource;
 
 import javax.sql.DataSource;
-
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -37,7 +35,7 @@ public class BioactivityRepositoryTest {
 
     @Test
     void dataIsLoaded(){
-        List<Bioactivity> data = bioactivityRepository.findByDtxsid("DTXSID0020020");
+        List<Bioactivity> data = bioactivityRepository.findByDtxsid("DTXSID0020020", Bioactivity.class);
 
         log.info("size {} ", data.size());
 
@@ -50,14 +48,14 @@ public class BioactivityRepositoryTest {
 
         // This dtxsid doesn't exist in data.sql file but it is in the database. In this case
         // test shouldn't find this dtxsid
-        List<Bioactivity> data = bioactivityRepository.findByDtxsid("DTXSID6020569");
+        List<Bioactivity> data = bioactivityRepository.findByDtxsid("DTXSID6020569", Bioactivity.class);
 
         assertThat(data.size()==0).isTrue();
     }
 
     @Test
     void checkSpecificAeidValue(){
-        List<Bioactivity> data = bioactivityRepository.findByAeid(760);
+        List<Bioactivity> data = bioactivityRepository.findByAeid(760, Bioactivity.class);
         Integer tableSize = data.size();
         log.info("size {} ", tableSize);
         System.out.println(" size = " + tableSize.toString());

@@ -10,10 +10,14 @@ import java.util.List;
 @RepositoryRestResource(exported = false)
 public interface BioactivityRepository extends JpaRepository<Bioactivity, Integer> {
 
-    @Transactional(readOnly = true)
-    List<Bioactivity> findByDtxsid(String dtxsid);
+    //<T> List<T> findByDtxsidInOrderByDtxsidAscAeidAsc(String[] dtxsids, Class<T> type);
 
     @Transactional(readOnly = true)
-    List<Bioactivity> findByAeid(Integer aeid);
+    <T>
+    List<T> findByDtxsid(String dtxsid, Class<T> type);
+
+    @Transactional(readOnly = true)
+    <T>
+    List<T> findByAeid(Integer aeid, Class<T> type);
 
 }
