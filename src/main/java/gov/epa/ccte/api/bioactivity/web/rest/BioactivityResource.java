@@ -39,7 +39,7 @@ public class BioactivityResource {
      * @param dtxsid the matching dtxsid of the Bioactivity to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the list of chemicalDetail}.
      */
-    @Operation(summary = "Get bioactivity data by dtxsid")
+    @Operation(summary = "Get data by dtxsid")
     @RequestMapping(value = "bioactivity/search/by-dtxsid/{dtxsid}", method = RequestMethod.GET)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json",
@@ -60,7 +60,7 @@ public class BioactivityResource {
      * @param aeid the matching aeid of the Bioactivity to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the list of bioactivity}.
      */
-    @Operation(summary = "Get bioactivity data by aeid")
+    @Operation(summary = "Get data by aeid")
     @RequestMapping(value = "bioactivity/search/by-aeid/{aeid}", method = RequestMethod.GET)
     public @ResponseBody
     List<BioactivityAll> bioactivityByAeid(@Parameter(required = true, description = "Numeric assay endpoint identifier", example = "1386") @PathVariable("aeid") Integer aeid) {
