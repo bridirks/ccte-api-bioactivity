@@ -29,7 +29,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ApiKeyRequestFilter extends GenericFilterBean {
 
     private ConcurrentHashMap<UUID, String> keyStore;// = new ConcurrentHashMap();
-
+    private ConcurrentHashMap<String, String> approvedOriginStore;// = new ConcurrentHashMap();
     private final ObjectMapper mapper = new ObjectMapper();
     private final String keyName;
 
@@ -37,6 +37,19 @@ public class ApiKeyRequestFilter extends GenericFilterBean {
         this.keyName = keyName;
 
         initializeKeyStore(repository);
+        initializeApprovedOriginStore();
+    }
+
+    private void initializeApprovedOriginStore() {
+        approvedOriginStore = new ConcurrentHashMap<>();
+        approvedOriginStore.put("http://localhost:3003", "http://localhost:3003");
+        approvedOriginStore.put("http://localhost:8888", "http://localhost:8888");
+        approvedOriginStore.put("https://ccte-ccd-dev.epa.gov", "https://ccte-ccd-dev.epa.gov");
+        approvedOriginStore.put("https://ccte-ccd-stg.epa.gov", "https://ccte-ccd-stg.epa.gov");
+        approvedOriginStore.put("https://ccte-ccd-prod.epa.gov", "https://ccte-prod-stg.epa.gov");
+        approvedOriginStore.put("https://ccte-ccd-stg.epa.gov", "https://ccte-ccd-stg.epa.gov");
+        approvedOriginStore.put("https://ccte-ccd-prod.epa.gov", "https://ccte-ccd-prod.epa.gov");
+        approvedOriginStore.put("https://comptox.epa.gov", "https://comptox.epa.gov");
     }
 
     private void initializeKeyStore(ApiKeyRepository repository) {
@@ -44,7 +57,7 @@ public class ApiKeyRequestFilter extends GenericFilterBean {
 
         List<ApiKey> keys = repository.findAll();
 
-        for(ApiKey key : keys)
+        for (ApiKey key : keys)
             keyStore.put(key.getId(), key.getEmail());
 
         log.info("*** {} keys are loaded. *** ", keys.size());
@@ -55,17 +68,27 @@ public class ApiKeyRequestFilter extends GenericFilterBean {
 
         log.info("*** checking the API key ***");
 
+        // dump the request headers
+//        log.info("*** request headers ***");
+//        Enumeration<String> headerNames = ((HttpServletRequest) servletRequest).getHeaderNames();
+//
+//        if (headerNames != null) {
+//            while (headerNames.hasMoreElements()) {
+//                String header = headerNames.nextElement();
+//                log.info("Header: {} = {}", header, ((HttpServletRequest) servletRequest).getHeader(header));
+//            }
+//        }
+
         HttpServletRequest req = (HttpServletRequest) servletRequest;
-        String path = req.getRequestURI();
 
 //        if(path.startsWith("/api") == false){
 //            filterChain.doFilter(servletRequest, servletResponse);
 //            return;
 //        }
 
-        // get from header
-        String method = req.getMethod();
-        if (!method.equalsIgnoreCase("options")) {
+        //
+        if (shouldCheckApiKey(req)) {
+            log.info("*** API key check is checking ***");
             //String headers = String.valueOf(req.getHeaderNames());
             String key = getApiKeyfromHttpHeader(req.getHeader(keyName));
 
@@ -87,18 +110,42 @@ public class ApiKeyRequestFilter extends GenericFilterBean {
                 log.info("*** API key {} not recognized *** ", key);
             }
         } else {
+            log.info("*** API key check is skipped ***");
             filterChain.doFilter(servletRequest, servletResponse);
         }
     }
+
+    private boolean shouldCheckApiKey(HttpServletRequest req) {
+        // check if request has method OPTIONS or remote is localhost
+        String method = req.getMethod();    // OPTIONS
+        String host = req.getHeader("host");  // example - host = api-ccte-stg.epa.gov
+        String origin = req.getHeader("origin");  // example - origin = http://localhost:8888
+        String xforwarded = req.getHeader("x-forwarded-for");  // example - x-forwarded-for = 134.67.178.37
+
+        log.info("shouldCheckApiKey() method = {}, host = {}", method, host);
+
+        log.debug("origin = {}, host = {}, x-forwarded-for = {} ", origin, host, xforwarded);
+
+        if (method.equalsIgnoreCase("OPTIONS") || approvedOrigin(origin))
+            return false;
+        else
+            return true;
+    }
+
+    private boolean approvedOrigin(String origin) {
+
+        return origin != null && approvedOriginStore.containsKey(origin);
+    }
+
 
     private String getApiKeyFromQueryParam(String query) throws UnsupportedEncodingException {
 
         // an example -  format=svg&x-api-key=f1d96bdd-223a-434e-b1c0-af373a59a19e
 
-        if(query != null){
+        if (query != null) {
             String[] params = query.split("&");
 
-            for(String param: params){
+            for (String param : params) {
                 int idx = param.indexOf("=");
                 if(param.substring(0,idx).equalsIgnoreCase(keyName)){
                     return URLDecoder.decode(param.substring(idx + 1),"UTF-8");
