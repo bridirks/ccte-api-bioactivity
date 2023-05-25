@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -46,10 +47,9 @@ public class ApiKeyRequestFilter extends GenericFilterBean {
         approvedOriginStore.put("http://localhost:8888", "http://localhost:8888");
         approvedOriginStore.put("https://ccte-ccd-dev.epa.gov", "https://ccte-ccd-dev.epa.gov");
         approvedOriginStore.put("https://ccte-ccd-stg.epa.gov", "https://ccte-ccd-stg.epa.gov");
-        approvedOriginStore.put("https://ccte-ccd-prod.epa.gov", "https://ccte-prod-stg.epa.gov");
-        approvedOriginStore.put("https://ccte-ccd-stg.epa.gov", "https://ccte-ccd-stg.epa.gov");
         approvedOriginStore.put("https://ccte-ccd-prod.epa.gov", "https://ccte-ccd-prod.epa.gov");
         approvedOriginStore.put("https://comptox.epa.gov", "https://comptox.epa.gov");
+        approvedOriginStore.put("https://ccte-api-s.app.cloud.gov", "https://ccte-api-s.app.cloud.gov");
     }
 
     private void initializeKeyStore(ApiKeyRepository repository) {
@@ -69,7 +69,7 @@ public class ApiKeyRequestFilter extends GenericFilterBean {
         log.info("*** checking the API key ***");
 
         // dump the request headers
-//        log.info("*** request headers ***");
+        log.info("*** request headers ***");
 //        Enumeration<String> headerNames = ((HttpServletRequest) servletRequest).getHeaderNames();
 //
 //        if (headerNames != null) {
@@ -118,15 +118,25 @@ public class ApiKeyRequestFilter extends GenericFilterBean {
     private boolean shouldCheckApiKey(HttpServletRequest req) {
         // check if request has method OPTIONS or remote is localhost
         String method = req.getMethod();    // OPTIONS
-        String host = req.getHeader("host");  // example - host = api-ccte-stg.epa.gov
-        String origin = req.getHeader("origin");  // example - origin = http://localhost:8888
-        String xforwarded = req.getHeader("x-forwarded-for");  // example - x-forwarded-for = 134.67.178.37
+        String origin = Optional.ofNullable(req.getHeader("origin")).orElse("");  // example - origin = http://localhost:8888
+        String referer = Optional.ofNullable(req.getHeader("Referer")).orElse("");  // example - referer = http://localhost:8888/dashboard
+        String path = Optional.ofNullable(req.getServletPath()).orElse(""); // example - path = /chemical/file/image/search/by-dtxsid/DTXSID7020182
 
-        log.info("shouldCheckApiKey() method = {}, host = {}", method, host);
+        String refererdHost;
+        if (!referer.equals("")) {
+            refererdHost = "https://" + referer.split("/")[2];  // example - referredHost = localhost:8888
+        } else {
+            refererdHost = ""; //"https://" + req.getHeader("Referer").split("/")[2];  // example - referredHost = localhost:8888
+        }
 
-        log.debug("origin = {}, host = {}, x-forwarded-for = {} ", origin, host, xforwarded);
+        log.debug("origin = {}, referer ={}, refererdHost = {}, path={} ", origin, referer, refererdHost, path);
 
-        if (method.equalsIgnoreCase("OPTIONS") || approvedOrigin(origin))
+        // if chemical/file path - allow access to images without any api key
+        if (path.contains("/chemical/file/")) {
+            return false;
+        }
+
+        if (method.equalsIgnoreCase("OPTIONS") || approvedOrigin(origin) || approvedOrigin(refererdHost))
             return false;
         else
             return true;
@@ -147,8 +157,8 @@ public class ApiKeyRequestFilter extends GenericFilterBean {
 
             for (String param : params) {
                 int idx = param.indexOf("=");
-                if(param.substring(0,idx).equalsIgnoreCase(keyName)){
-                    return URLDecoder.decode(param.substring(idx + 1),"UTF-8");
+                if (param.substring(0, idx).equalsIgnoreCase(keyName)) {
+                    return URLDecoder.decode(param.substring(idx + 1), "UTF-8");
                 }
             }
         }
@@ -168,7 +178,6 @@ public class ApiKeyRequestFilter extends GenericFilterBean {
 
     private void returnErrorMsg(ServletResponse servletResponse, String key) throws IOException {
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
-        String error = "Invalid API KEY";
 
         AuthorizationProblem problem;
 
