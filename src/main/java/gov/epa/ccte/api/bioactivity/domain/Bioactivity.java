@@ -1,12 +1,15 @@
 package gov.epa.ccte.api.bioactivity.domain;
 
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.Size;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.Size;
+import org.hibernate.type.SqlTypes;
+
 import java.time.Instant;
 
 @Entity
@@ -201,11 +204,11 @@ public class Bioactivity {
     private String dtxsid;
 
     @Column(name = "logc_agg")
-    @Type(type = "org.hibernate.type.TextType")
+    @JdbcTypeCode(SqlTypes.LONGVARCHAR)
     private String logcAgg;
 
     @Column(name = "resp_agg")
-    @Type(type = "org.hibernate.type.TextType")
+    @JdbcTypeCode(SqlTypes.LONGVARCHAR)
     private String respAgg;
 
     @Column(name = "pval_agg")
@@ -215,7 +218,7 @@ public class Bioactivity {
     private Double bvalAgg;
 
     @Column(name = "mc6_flag_agg")
-    @Type(type = "org.hibernate.type.TextType")
+    @JdbcTypeCode(SqlTypes.LONGVARCHAR)
     private String mc6FlagAgg;
 
     @Column(name = "source_chid_rep")
@@ -297,7 +300,7 @@ public class Bioactivity {
     private Short internalReadyInd;
 
     @Column(name = "assay_component_endp_desc")
-    @Type(type = "org.hibernate.type.TextType")
+    @JdbcTypeCode(SqlTypes.LONGVARCHAR)
     private String assayComponentEndpDesc;
 
     @Size(max = 50)
@@ -353,11 +356,11 @@ public class Bioactivity {
     private String assayTtl;
 
     @Column(name = "biological_response_tx")
-    @Type(type = "org.hibernate.type.TextType")
+    @JdbcTypeCode(SqlTypes.LONGVARCHAR)
     private String biologicalResponseTx;
 
     @Column(name = "analytical_desc")
-    @Type(type = "org.hibernate.type.TextType")
+    @JdbcTypeCode(SqlTypes.LONGVARCHAR)
     private String analyticalDesc;
 
     @Column(name = "source_tgt_id")
@@ -480,11 +483,11 @@ public class Bioactivity {
     private String tissue;
 
     @Column(name = "assay_description")
-    @Type(type = "org.hibernate.type.TextType")
+    @JdbcTypeCode(SqlTypes.LONGVARCHAR)
     private String assayDescription;
 
     @Column(name = "gene_info")
-    @Type(type = "org.hibernate.type.TextType")
+    @JdbcTypeCode(SqlTypes.LONGVARCHAR)
     private String geneInfo;
 
     @Size(max = 32)

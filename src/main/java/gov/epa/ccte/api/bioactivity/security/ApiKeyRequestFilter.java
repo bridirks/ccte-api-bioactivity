@@ -10,12 +10,12 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -57,7 +57,7 @@ public class ApiKeyRequestFilter extends GenericFilterBean {
 
         List<ApiKey> keys = repository.findAll();
 
-        for (ApiKey key : keys)
+        for(ApiKey key : keys)
             keyStore.put(key.getId(), key.getEmail());
 
         log.info("*** {} keys are loaded. *** ", keys.size());
@@ -87,7 +87,7 @@ public class ApiKeyRequestFilter extends GenericFilterBean {
 //        }
 
         //
-        if (shouldCheckApiKey(req)) {
+        if(shouldCheckApiKey(req)) {
             log.info("*** API key check is checking ***");
             //String headers = String.valueOf(req.getHeaderNames());
             String key = getApiKeyfromHttpHeader(req.getHeader(keyName));
@@ -109,7 +109,7 @@ public class ApiKeyRequestFilter extends GenericFilterBean {
                 returnErrorMsg(servletResponse, key);
                 log.info("*** API key {} not recognized *** ", key);
             }
-        } else {
+        }else{
             log.info("*** API key check is skipped ***");
             filterChain.doFilter(servletRequest, servletResponse);
         }
@@ -123,20 +123,20 @@ public class ApiKeyRequestFilter extends GenericFilterBean {
         String path = Optional.ofNullable(req.getServletPath()).orElse(""); // example - path = /chemical/file/image/search/by-dtxsid/DTXSID7020182
 
         String refererdHost;
-        if (!referer.equals("")) {
+        if(!referer.equals("")){
             refererdHost = "https://" + referer.split("/")[2];  // example - referredHost = localhost:8888
-        } else {
+        }else{
             refererdHost = ""; //"https://" + req.getHeader("Referer").split("/")[2];  // example - referredHost = localhost:8888
         }
 
-        log.debug("origin = {}, referer ={}, refererdHost = {}, path={} ", origin, referer, refererdHost, path);
+        log.debug("origin = {}, referer ={}, refererdHost = {}, path={} ",origin, referer, refererdHost, path);
 
         // if chemical/file path - allow access to images without any api key
-        if (path.contains("/chemical/file/")) {
+        if(path.contains("/chemical/file/")){
             return false;
         }
 
-        if (method.equalsIgnoreCase("OPTIONS") || approvedOrigin(origin) || approvedOrigin(refererdHost))
+        if(method.equalsIgnoreCase("OPTIONS") || approvedOrigin(origin) || approvedOrigin(refererdHost))
             return false;
         else
             return true;
@@ -152,13 +152,13 @@ public class ApiKeyRequestFilter extends GenericFilterBean {
 
         // an example -  format=svg&x-api-key=f1d96bdd-223a-434e-b1c0-af373a59a19e
 
-        if (query != null) {
+        if(query != null){
             String[] params = query.split("&");
 
-            for (String param : params) {
+            for(String param: params){
                 int idx = param.indexOf("=");
-                if (param.substring(0, idx).equalsIgnoreCase(keyName)) {
-                    return URLDecoder.decode(param.substring(idx + 1), "UTF-8");
+                if(param.substring(0,idx).equalsIgnoreCase(keyName)){
+                    return URLDecoder.decode(param.substring(idx + 1),"UTF-8");
                 }
             }
         }
