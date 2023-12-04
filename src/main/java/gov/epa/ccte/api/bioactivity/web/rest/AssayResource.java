@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * REST controller for getting the {@link gov.epa.ccte.api.bioactivity.domain.Bioactivity}s.
+ * REST controller for getting the {@link gov.epa.ccte.api.bioactivity.domain.FlatAssayAnnotation}s.
  */
 @Tag(name = "Bioactivity Assay Resource",
         description = "API endpoints for collecting Assay annotations.")
