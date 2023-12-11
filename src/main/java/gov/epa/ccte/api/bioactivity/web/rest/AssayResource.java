@@ -1,8 +1,9 @@
 package gov.epa.ccte.api.bioactivity.web.rest;
 
+import gov.epa.ccte.api.bioactivity.domain.AssayAnnotation;
 import gov.epa.ccte.api.bioactivity.projection.assay.AssayAll;
 import gov.epa.ccte.api.bioactivity.projection.assay.AssayBase;
-import gov.epa.ccte.api.bioactivity.repository.FlatAssayAnnotationRepository;
+import gov.epa.ccte.api.bioactivity.repository.AssayAnnotationRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -12,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * REST controller for getting the {@link gov.epa.ccte.api.bioactivity.domain.FlatAssayAnnotation}s.
+ * REST controller for getting the {@link AssayAnnotation}s.
  */
 @Tag(name = "Bioactivity Assay Resource",
         description = "API endpoints for collecting Assay annotations.")
@@ -20,9 +21,9 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 public class AssayResource {
-    final private FlatAssayAnnotationRepository annotationRepository;
+    final private AssayAnnotationRepository annotationRepository;
 
-    public AssayResource(FlatAssayAnnotationRepository annotationRepository) {
+    public AssayResource(AssayAnnotationRepository annotationRepository) {
         this.annotationRepository = annotationRepository;
     }
 

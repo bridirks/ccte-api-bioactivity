@@ -11,13 +11,12 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.util.List;
-import java.util.Map;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "flat_assay_annotation", schema = "bio4_1")
-public class FlatAssayAnnotation {
+public class AssayAnnotation {
     @Id
     @Column(name = "aeid", nullable = false)
     private Integer aeid;

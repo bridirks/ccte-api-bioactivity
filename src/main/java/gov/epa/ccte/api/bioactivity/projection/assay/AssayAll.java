@@ -1,11 +1,12 @@
 package gov.epa.ccte.api.bioactivity.projection.assay;
 
+import gov.epa.ccte.api.bioactivity.domain.AssayAnnotation;
 import gov.epa.ccte.api.bioactivity.domain.AssayList;
 import gov.epa.ccte.api.bioactivity.domain.Citation;
 import gov.epa.ccte.api.bioactivity.domain.Gene;
 
 /**
- * Projection for {@link gov.epa.ccte.api.bioactivity.domain.FlatAssayAnnotation}
+ * Projection for {@link AssayAnnotation}
  */
 public interface AssayAll extends AssayBase{
     Integer getAeid();

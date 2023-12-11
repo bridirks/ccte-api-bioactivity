@@ -21,7 +21,7 @@ import java.util.Map;
 @Setter
 @Entity
 @Immutable
-@Table(name = "bioactivity_data", schema = "bio4_1")
+@Table(name = "v_bioactivity_data", schema = "bio4_1")
 public class BioactivityData {
     @Id
     @Column(name = "m4id")
