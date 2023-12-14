@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "flat_assay_annotation", schema = "bio4_1")
+@Table(name = "v_assay_annotation", schema = "bio4_1")
 public class AssayAnnotation {
     @Id
     @Column(name = "aeid", nullable = false)
