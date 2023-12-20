@@ -6,7 +6,7 @@ applications:
       #- route: ccte-bioactivity-p.app.cloud.gov
       - route: api-ccte-stg.epa.gov/bioactivity
       #- route: ccte-api-s.app.cloud.gov/bioactivity
-    memory: 2G
+    memory: 1G
     instances: 1
     random-route: false
     path: target/bioactivity.jar
