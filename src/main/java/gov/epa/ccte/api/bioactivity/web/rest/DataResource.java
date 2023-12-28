@@ -1,8 +1,9 @@
 package gov.epa.ccte.api.bioactivity.web.rest;
 
-import gov.epa.ccte.api.bioactivity.domain.BioactivityData;
+import gov.epa.ccte.api.bioactivity.domain.AssayListCount;
 import gov.epa.ccte.api.bioactivity.projection.data.BioactivityDataAll;
 import gov.epa.ccte.api.bioactivity.projection.data.BioactivityDataBase;
+import gov.epa.ccte.api.bioactivity.repository.AssayListCountRepository;
 import gov.epa.ccte.api.bioactivity.repository.BioactivityDataRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -25,9 +26,10 @@ import java.util.List;
 public class DataResource {
 
     private final BioactivityDataRepository dataRepository;
-
-    public DataResource(BioactivityDataRepository dataRepository) {
+    private final AssayListCountRepository countRepository;
+    public DataResource(BioactivityDataRepository dataRepository, AssayListCountRepository countRepository) {
         this.dataRepository = dataRepository;
+        this.countRepository = countRepository;
     }
 
     /**
@@ -100,6 +102,22 @@ public class DataResource {
         BioactivityDataAll data = dataRepository.findByM4id(m4id, BioactivityDataAll.class);
 
         return data;
+    }
+
+    /**
+     * {@code GET  /bioactivity/data/summary/search/by-aeid/:aeid} : get bioactivity summary for the "aeid".
+     *
+     * @param aeid the matching aeid of the assays to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the Summary data.
+     */
+    @Operation(summary = "Get summary by aeid")
+    @RequestMapping(value = "/bioactivity/data/summary/search/by-aeid/{aeid}", method = RequestMethod.GET)
+    public @ResponseBody
+    AssayListCount summaryByAeid(@Parameter(required = true, description = "Numeric assay endpoint identifier", example = "1386") @PathVariable("aeid") Integer aeid) {
+
+        log.debug("m4id = {}", aeid);
+
+         return countRepository.findByAeid(aeid);
     }
 
 
