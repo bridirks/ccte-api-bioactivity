@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * REST controller for getting the {@link AssayAnnotation}s.
  */
@@ -43,6 +45,23 @@ public class AssayResource {
         AssayAll data = annotationRepository.findByAeid(aeid, AssayAll.class);
 
         return data;
+    }
+
+    /**
+     * {@code GET  /bioactivity/assay/} : get all assays annotation .
+     * *
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the array of  asssay annotation.
+     */
+    @Operation(summary = "Get all assays")
+    @RequestMapping(value = "bioactivity/assay/", method = RequestMethod.GET)
+    public @ResponseBody
+    List allAssays() {
+
+        log.debug("get all assays");
+
+        return annotationRepository.findBy(AssayAll.class);
+
     }
 
 }

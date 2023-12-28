@@ -17,7 +17,7 @@ public class Citation implements Serializable {
     private String author;
     private String citation;
     @JsonAlias("other_id")
-    private Integer otherId;
+    private String otherId;
     @JsonAlias("citation_id")
     private Integer citationId;
     @JsonAlias("other_source")
