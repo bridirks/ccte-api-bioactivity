@@ -96,9 +96,7 @@ public class WebConfigurer implements ServletContextInitializer, WebMvcConfigure
 //        interceptor.addCacheMapping(CacheControl.maxAge(0, TimeUnit.SECONDS)
 //                .noTransform()
 //                .mustRevalidate(), "/*");
-        interceptor.setCacheControl( CacheControl.maxAge(0, TimeUnit.SECONDS)
-                .noTransform()
-                .mustRevalidate());
+        interceptor.setCacheControl( CacheControl.noCache().mustRevalidate());
         //interceptor.setCacheControl(  "no-cache, no-store, max-age=0, must-revalidate");
 
         registry.addInterceptor(interceptor);
