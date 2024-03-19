@@ -41,7 +41,7 @@ public class DataResource {
     @Operation(summary = "Get data by dtxsid")
     @RequestMapping(value = "bioactivity/data/search/by-dtxsid/{dtxsid}", method = RequestMethod.GET)
     public @ResponseBody
-    List dataByDtxsid(@Parameter(required = true, description = "DSSTox Substance Identifier", example = "DTXSID0021125") @PathVariable("dtxsid") String dtxsid) {
+    List dataByDtxsid(@Parameter(required = true, description = "DSSTox Substance Identifier", example = "DTXSID9026974") @PathVariable("dtxsid") String dtxsid) {
 
         log.debug("dtxsid = {}", dtxsid);
 
@@ -59,7 +59,7 @@ public class DataResource {
     @Operation(summary = "Get data by aeid")
     @RequestMapping(value = "bioactivity/data/search/by-aeid/{aeid}", method = RequestMethod.GET)
     public @ResponseBody
-    List dataByAeid(@Parameter(required = true, description = "Numeric assay endpoint identifier", example = "1386") @PathVariable("aeid") Integer aeid) {
+    List dataByAeid(@Parameter(required = true, description = "Numeric assay endpoint identifier", example = "3032") @PathVariable("aeid") Integer aeid) {
 
         log.debug("aeid = {}", aeid);
 
@@ -77,7 +77,7 @@ public class DataResource {
     @Operation(summary = "Get data by spid")
     @RequestMapping(value = "bioactivity/data/search/by-spid/{spid}", method = RequestMethod.GET)
     public @ResponseBody
-    List dataBySpid(@Parameter(required = true, description = "identifier", example = "spid") @PathVariable("spid") String spid) {
+    List dataBySpid(@Parameter(required = true, description = "identifier", example = "EPAPLT0232A03") @PathVariable("spid") String spid) {
 
         log.debug("spid = {}", spid);
 
@@ -95,7 +95,7 @@ public class DataResource {
     @Operation(summary = "Get data by m4id")
     @RequestMapping(value = "bioactivity/data/search/by-m4id/{m4id}", method = RequestMethod.GET)
     public @ResponseBody
-    BioactivityDataBase dataByM4Id(@Parameter(required = true, description = "Numeric data identifier", example = "392006") @PathVariable("m4id") Integer m4id) {
+    BioactivityDataBase dataByM4Id(@Parameter(required = true, description = "Numeric data identifier", example = "1135145") @PathVariable("m4id") Integer m4id) {
 
         log.debug("m4id = {}", m4id);
 
@@ -113,12 +113,11 @@ public class DataResource {
     @Operation(summary = "Get summary by aeid")
     @RequestMapping(value = "/bioactivity/data/summary/search/by-aeid/{aeid}", method = RequestMethod.GET)
     public @ResponseBody
-    AssayListCount summaryByAeid(@Parameter(required = true, description = "Numeric assay endpoint identifier", example = "1386") @PathVariable("aeid") Integer aeid) {
+    AssayListCount summaryByAeid(@Parameter(required = true, description = "Numeric assay endpoint identifier", example = "3032") @PathVariable("aeid") Integer aeid) {
 
         log.debug("m4id = {}", aeid);
 
          return countRepository.findByAeid(aeid);
     }
-
 
 }
