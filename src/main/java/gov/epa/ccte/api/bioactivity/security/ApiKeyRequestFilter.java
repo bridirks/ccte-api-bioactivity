@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
@@ -133,8 +132,8 @@ public class ApiKeyRequestFilter extends GenericFilterBean {
 
         log.debug("method = {}, origin = {}, referer ={}, refererdHost = {}, path={} ",method, origin, referer, refererdHost, path);
 
-        // if chemical/file path - allow access to images without any api key
-        if(path.contains("/chemical/file/")){
+        // not security for health endpoint
+        if( path.contains("/bioactivity/health")){
             log.debug("skipping api-key check");
             return false;
         }
