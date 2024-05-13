@@ -48,7 +48,7 @@ public class AssayAnnotationRepositoryTest {
 
     // Now test data loaded or not
     @Test
-    void testDataLoaded() throws Exception {
+    void testDataLoaded() {
         assertThat(repository.findAll().size()).isEqualTo(10);
     }
 
