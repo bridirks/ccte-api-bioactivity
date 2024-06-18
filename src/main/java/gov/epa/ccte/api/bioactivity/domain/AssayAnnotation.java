@@ -224,6 +224,7 @@ public class AssayAnnotation {
     @Column(name = "citations")
     @JdbcTypeCode(SqlTypes.JSON)
     private List<Citation> citations;
+
     @NotNull
     @Column(name = "export_date", nullable = false)
     private LocalDate exportDate;
