@@ -4,14 +4,17 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Map;
 
 /**
@@ -142,5 +145,19 @@ public class BioactivityData {
     @Column(name = "mc6_param")
     @JdbcTypeCode(SqlTypes.JSON)
     private Mc6Param mc6Param;
+
+    @NotNull
+    @Column(name = "export_date", nullable = false)
+    private LocalDate exportDate;
+
+    @Size(max = 28)
+    @NotNull
+    @ColumnDefault("''")
+    @Column(name = "version", nullable = false, length = 28)
+    private String version;
+
+    @ColumnDefault("CURRENT_DATE")
+    @Column(name = "import_date")
+    private LocalDate importDate;
 
 }
