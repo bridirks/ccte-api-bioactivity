@@ -20,7 +20,7 @@ public class AssayListCount {
     private Integer aeid;
 
     @Column(name = "active_mc")
-    @Schema(description = "Number of active samples tested at multiple concentrations per endpoint (aeid)")
+    @Schema(description = "Number of active representative samples tested at multiple concentrations per endpoint (aeid)")
     private Long activeMc;
 
     @Column(name = "total_mc")
@@ -28,7 +28,7 @@ public class AssayListCount {
     private Long totalMc;
 
     @Column(name = "active_sc")
-    @Schema(description = "Number of active samples tested at single concentration per endpoint (aeid)")
+    @Schema(description = "Number of active representative samples tested at single concentration per endpoint (aeid)")
     private Long activeSc;
 
     @Column(name = "total_sc")
