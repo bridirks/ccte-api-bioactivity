@@ -11,6 +11,8 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
+
 @SpringBootTest
 @Testcontainers
 @ActiveProfiles("test")
@@ -23,5 +25,10 @@ class BioactivityApplicationTests {
 
 	@Test
 	void contextLoads() {
+	}
+
+	@Test
+	public void applicationStarts(){
+		assertThatCode(() -> BioactivityApplication.main(new String[]{})).doesNotThrowAnyException();
 	}
 }
