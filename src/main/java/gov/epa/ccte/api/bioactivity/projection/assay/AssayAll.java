@@ -5,6 +5,8 @@ import gov.epa.ccte.api.bioactivity.domain.AssayList;
 import gov.epa.ccte.api.bioactivity.domain.Citation;
 import gov.epa.ccte.api.bioactivity.domain.Gene;
 
+import java.util.List;
+
 /**
  * Projection for {@link AssayAnnotation}
  */
@@ -113,9 +115,9 @@ public interface AssayAll extends AssayBase{
 
     String getAssaySourceDesc();
 
-    Gene getGene();
+    List<Gene> getGene();
 
     AssayList getAssayList();
 
-    Citation getCitations();
+    List<Citation> getCitations();
 }
