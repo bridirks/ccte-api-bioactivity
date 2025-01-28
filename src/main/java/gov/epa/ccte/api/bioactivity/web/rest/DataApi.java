@@ -2,10 +2,12 @@ package gov.epa.ccte.api.bioactivity.web.rest;
 
 import gov.epa.ccte.api.bioactivity.domain.AssayListCount;
 import gov.epa.ccte.api.bioactivity.projection.data.BioactivityDataBase;
+import gov.epa.ccte.api.bioactivity.projection.data.BioactivityDataAll;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -13,10 +15,8 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
@@ -46,6 +46,24 @@ public interface DataApi {
                       @PathVariable("dtxsid") String dtxsid);
 
     /**
+     * {@code POST  /bioactivity/data/by-dtxsid/} : get bioactivity data for the batch of "dtxsids".
+     *
+     * @param dtxsids the matching dtxsids of the assays to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the bioactivity data.
+     */
+    @Operation(summary = "Find bioactivity data by batch of dtxsids", description = "return bioactivity data for requested dtxsids.")
+    @ApiResponses(value= {
+            @ApiResponse(responseCode = "200", description = "OK",  content = @Content( mediaType = "application/json",
+                    schema=@Schema(oneOf = {BioactivityDataAll.class}))),
+    })
+    @PostMapping(value = "/search/by-dtxsid/")
+    @ResponseBody
+    List<BioactivityDataAll> batchSearchDataByDtxsid(@io.swagger.v3.oas.annotations.parameters.RequestBody(required = true, description = "JSON array of DSSTox Substance Identifier",
+            content = {@Content(array = @ArraySchema(schema = @Schema(implementation = String.class)),
+                    examples = {@ExampleObject("\"[\\\"DTXSID9026974\\\",\\\"DTXSID9020112\\\"]\"")})})
+                                                    @RequestBody String[] dtxsids);
+    
+    /**
      * {@code GET  /bioactivity/data/by-aeid/:aeid} : get bioactivity data for the "aeid".
      *
      * @param aeid the matching aeid of the assays to retrieve.
@@ -61,6 +79,24 @@ public interface DataApi {
     @ResponseBody
     List dataByAeid(@Parameter(required = true, description = "Numeric assay endpoint identifier", example = "3032")
                     @PathVariable("aeid") Integer aeid);
+    
+    /**
+     * {@code POST  /bioactivity/data/by-aeid/} : get bioactivity data for the batch of "aeids".
+     *
+     * @param aeids the matching aeids of the assays to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the bioactivity data.
+     */
+    @Operation(summary = "Find bioactivity data by batch of aeids", description = "return bioactivity data for requested aeids.")
+    @ApiResponses(value= {
+            @ApiResponse(responseCode = "200", description = "OK",  content = @Content( mediaType = "application/json",
+                    schema=@Schema(oneOf = {BioactivityDataAll.class}))),
+    })
+    @PostMapping(value = "/search/by-aeid/")
+    @ResponseBody
+    List<BioactivityDataAll> batchSearchDataByAeid(@io.swagger.v3.oas.annotations.parameters.RequestBody(required = true, description = "JSON array of DSSTox Substance Identifier",
+            content = {@Content(array = @ArraySchema(schema = @Schema(implementation = String.class)),
+                    examples = {@ExampleObject("\"[\\\"3032\\\",\\\"755\\\"]\"")})})
+                                                    @RequestBody String[] aeids);
 
     /**
      * {@code GET  /bioactivity/data/by-spid/:spid} : get bioactivity data for the "spid".
@@ -78,6 +114,24 @@ public interface DataApi {
     @ResponseBody
     List dataBySpid(@Parameter(required = true, description = "identifier", example = "EPAPLT0232A03")
                     @PathVariable("spid") String spid);
+    
+    /**
+     * {@code POST  /bioactivity/data/by-spid/} : get bioactivity data for the batch of "spids".
+     *
+     * @param spids the matching spids of the assays to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the bioactivity data.
+     */
+    @Operation(summary = "Find bioactivity data by batch of spids", description = "return bioactivity data for requested spids.")
+    @ApiResponses(value= {
+            @ApiResponse(responseCode = "200", description = "OK",  content = @Content( mediaType = "application/json",
+                    schema=@Schema(oneOf = {BioactivityDataAll.class}))),
+    })
+    @PostMapping(value = "/search/by-spid/")
+    @ResponseBody
+    List<BioactivityDataAll> batchSearchDataBySpid(@io.swagger.v3.oas.annotations.parameters.RequestBody(required = true, description = "JSON array of DSSTox Substance Identifier",
+            content = {@Content(array = @ArraySchema(schema = @Schema(implementation = String.class)),
+                    examples = {@ExampleObject("\"[\\\"EPAPLT0232A03\\\",\\\"TP0000311A04\\\"]\"")})})
+                                                    @RequestBody String[] spids);
 
     /**
      * {@code GET  /bioactivity/data/by-m4id/:m4id} : get bioactivity data for the "m4id".
@@ -95,6 +149,24 @@ public interface DataApi {
     BioactivityDataBase dataByM4Id(@Parameter(required = true, description = "Numeric data identifier", example = "1135145")
                                    @PathVariable("m4id") Integer m4id);
 
+    /**
+     * {@code POST  /bioactivity/data/by-m4id/} : get bioactivity data for the batch of "m4ids".
+     *
+     * @param m4ids the matching m4ids of the assays to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the bioactivity data.
+     */
+    @Operation(summary = "Find bioactivity data by batch of m4ids", description = "return bioactivity data for requested m4ids.")
+    @ApiResponses(value= {
+            @ApiResponse(responseCode = "200", description = "OK",  content = @Content( mediaType = "application/json",
+                    schema=@Schema(oneOf = {BioactivityDataAll.class}))),
+    })
+    @PostMapping(value = "/search/by-m4id/")
+    @ResponseBody
+    List<BioactivityDataAll> batchSearchDataByM4id(@io.swagger.v3.oas.annotations.parameters.RequestBody(required = true, description = "JSON array of DSSTox Substance Identifier",
+            content = {@Content(array = @ArraySchema(schema = @Schema(implementation = String.class)),
+                    examples = {@ExampleObject("\"[\\\"1135145\\\",\\\"394876\\\"]\"")})})
+                                                    @RequestBody String[] spids);
+    
     /**
      * {@code GET  /bioactivity/data/summary/search/by-aeid/:aeid} : get bioactivity summary for the "aeid".
      *
