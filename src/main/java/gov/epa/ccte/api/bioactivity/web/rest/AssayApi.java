@@ -3,9 +3,12 @@ package gov.epa.ccte.api.bioactivity.web.rest;
 import gov.epa.ccte.api.bioactivity.domain.AssayAnnotation;
 import gov.epa.ccte.api.bioactivity.projection.assay.AssayAll;
 import gov.epa.ccte.api.bioactivity.projection.assay.AssayBase;
+import gov.epa.ccte.api.bioactivity.projection.data.BioactivityDataAll;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -14,6 +17,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -43,6 +48,24 @@ public interface AssayApi {
     @ResponseBody
     AssayBase assayByAeid(@Parameter(required = true, description = "Numeric assay endpoint identifier", example = "3032") @PathVariable("aeid") Integer aeid);
 
+    /**
+     * {@code POST  /bioactivity/assay/by-aeid/} : get assay annotation for the batch of "aeids".
+     *
+     * @param aeids the matching aeids of the assays to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the assay annotation.
+     */
+    @Operation(summary = "Find assay annotations by batch of aeids", description = "return assay annotations for requested aeids.")
+    @ApiResponses(value= {
+            @ApiResponse(responseCode = "200", description = "OK",  content = @Content( mediaType = "application/json",
+                    schema=@Schema(oneOf = {AssayAll.class}))),
+    })
+    @PostMapping(value = "/search/by-aeid/")
+    @ResponseBody
+    List<AssayAll> batchSearchAssayByAeid(@io.swagger.v3.oas.annotations.parameters.RequestBody(required = true, description = "JSON array of DSSTox Substance Identifier",
+            content = {@Content(array = @ArraySchema(schema = @Schema(implementation = String.class)),
+                    examples = {@ExampleObject("\"[\\\"111\\\",\\\"3032\\\"]\"")})})
+                                                    @RequestBody String[] aeids);
+    
     /**
      * {@code GET  /bioactivity/assay/} : get all assays annotation .
      * *
