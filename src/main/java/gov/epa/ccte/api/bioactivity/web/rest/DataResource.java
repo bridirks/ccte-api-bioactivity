@@ -5,6 +5,8 @@ import gov.epa.ccte.api.bioactivity.projection.data.BioactivityDataAll;
 import gov.epa.ccte.api.bioactivity.projection.data.BioactivityDataBase;
 import gov.epa.ccte.api.bioactivity.repository.AssayListCountRepository;
 import gov.epa.ccte.api.bioactivity.repository.BioactivityDataRepository;
+import gov.epa.ccte.api.bioactivity.repository.ChemicalAggRepository;
+import gov.epa.ccte.api.bioactivity.service.BioactivityDataService;
 import gov.epa.ccte.api.bioactivity.web.rest.error.HigherNumberOfRequestsException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,13 +21,15 @@ public class DataResource implements DataApi {
 
     private final BioactivityDataRepository dataRepository;
     private final AssayListCountRepository countRepository;
+    private final ChemicalAggRepository chemAggRepository;
     
     @Value("200")
     private Integer batchSize;
     
-    public DataResource(BioactivityDataRepository dataRepository, AssayListCountRepository countRepository) {
+    public DataResource(BioactivityDataRepository dataRepository, AssayListCountRepository countRepository, BioactivityDataService bioactivityService, ChemicalAggRepository chemAggRepository) {
         this.dataRepository = dataRepository;
         this.countRepository = countRepository;
+        this.chemAggRepository = chemAggRepository;
     }
 
     @Override
@@ -134,9 +138,17 @@ public class DataResource implements DataApi {
     public @ResponseBody
     AssayListCount summaryByAeid(Integer aeid) {
 
-        log.debug("m4id = {}", aeid);
+        log.debug("aeid = {}", aeid);
 
          return countRepository.findByAeid(aeid);
+    }
+    
+    @Override
+    public @ResponseBody
+    List summaryByDtxsid(String dtxsid) {
+        log.debug("bioactivity summary data for dtxsid = {}", dtxsid);
+
+         return chemAggRepository.findByDtxsid(dtxsid);
     }
 
 }

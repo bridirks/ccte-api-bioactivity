@@ -1,7 +1,10 @@
 package gov.epa.ccte.api.bioactivity.web.rest;
 
 import gov.epa.ccte.api.bioactivity.domain.AssayListCount;
+import gov.epa.ccte.api.bioactivity.domain.ChemicalAgg;
 import gov.epa.ccte.api.bioactivity.projection.data.BioactivityDataBase;
+import gov.epa.ccte.api.bioactivity.projection.data.BioactivityDataSummary;
+import gov.epa.ccte.api.bioactivity.projection.data.BioactivityBatchSearchResult;
 import gov.epa.ccte.api.bioactivity.projection.data.BioactivityDataAll;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -182,4 +185,21 @@ public interface DataApi {
     @ResponseBody
     AssayListCount summaryByAeid(@Parameter(required = true, description = "Numeric assay endpoint identifier", example = "3032")
                                  @PathVariable("aeid") Integer aeid);
+    
+    /**
+     * {@code GET  /bioactivity/data/summary/search/by-dtxsid/:dtxsid} : get bioactivity summary for the "dtxsid".
+     *
+     * @param aeid the matching aeid of the assays to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the Summary data.
+     */
+    @Operation(summary = "Get summary by dtxsid", description = "Return summary data for given dtxsid", tags = {"bioactivity", "data"})
+    @ApiResponses(value= {
+            @ApiResponse(responseCode = "200", description = "OK",  content = @Content( mediaType = "application/json",
+                    schema=@Schema(oneOf = {ChemicalAgg.class}))),
+    })
+    @RequestMapping(value = "/summary/search/by-dtxsid/{dtxsid}",produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @ResponseBody
+    List summaryByDtxsid(@Parameter(required = true, description = "DSSTox Substance Identifier", example = "DTXSID9026974")
+                                 @PathVariable("dtxsid")String dtxsid);
+    
 }
