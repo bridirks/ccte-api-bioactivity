@@ -17,8 +17,8 @@ public interface BioactivityDataRepository extends JpaRepository<BioactivityData
     <T>List<T> findByDtxsidInOrderByDtxsidAsc(String[] dtxsids, Class<T> type);
 
     @Transactional(readOnly = true)
-    <T>List<T> findByM4id(Integer m4id, Class<T> type);
-    
+    <T> T findByM4id(Integer m4id, Class<T> type);
+
     @Transactional(readOnly = true)
     <T>List<T> findByM4idInOrderByM4idAsc(String[] spids, Class<T> type);
 
@@ -33,5 +33,6 @@ public interface BioactivityDataRepository extends JpaRepository<BioactivityData
     
     @Transactional(readOnly = true)
     <T>List<T> findBySpidInOrderBySpidAsc(String[] spids, Class<T> type);
+
 
 }

@@ -6,7 +6,6 @@ import gov.epa.ccte.api.bioactivity.projection.data.BioactivityDataBase;
 import gov.epa.ccte.api.bioactivity.repository.AssayListCountRepository;
 import gov.epa.ccte.api.bioactivity.repository.BioactivityDataRepository;
 import gov.epa.ccte.api.bioactivity.repository.ChemicalAggRepository;
-import gov.epa.ccte.api.bioactivity.service.BioactivityDataService;
 import gov.epa.ccte.api.bioactivity.web.rest.error.HigherNumberOfRequestsException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,7 +25,7 @@ public class DataResource implements DataApi {
     @Value("200")
     private Integer batchSize;
     
-    public DataResource(BioactivityDataRepository dataRepository, AssayListCountRepository countRepository, BioactivityDataService bioactivityService, ChemicalAggRepository chemAggRepository) {
+    public DataResource(BioactivityDataRepository dataRepository, AssayListCountRepository countRepository, ChemicalAggRepository chemAggRepository) {
         this.dataRepository = dataRepository;
         this.countRepository = countRepository;
         this.chemAggRepository = chemAggRepository;

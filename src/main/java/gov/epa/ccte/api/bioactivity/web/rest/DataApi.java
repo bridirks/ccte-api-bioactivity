@@ -3,8 +3,6 @@ package gov.epa.ccte.api.bioactivity.web.rest;
 import gov.epa.ccte.api.bioactivity.domain.AssayListCount;
 import gov.epa.ccte.api.bioactivity.domain.ChemicalAgg;
 import gov.epa.ccte.api.bioactivity.projection.data.BioactivityDataBase;
-import gov.epa.ccte.api.bioactivity.projection.data.BioactivityDataSummary;
-import gov.epa.ccte.api.bioactivity.projection.data.BioactivityBatchSearchResult;
 import gov.epa.ccte.api.bioactivity.projection.data.BioactivityDataAll;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -155,7 +153,7 @@ public interface DataApi {
     /**
      * {@code POST  /bioactivity/data/by-m4id/} : get bioactivity data for the batch of "m4ids".
      *
-     * @param m4ids the matching m4ids of the assays to retrieve.
+     * @param spids the matching m4ids of the assays to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the bioactivity data.
      */
     @Operation(summary = "Find bioactivity data by batch of m4ids", description = "return bioactivity data for requested m4ids.")
@@ -189,7 +187,7 @@ public interface DataApi {
     /**
      * {@code GET  /bioactivity/data/summary/search/by-dtxsid/:dtxsid} : get bioactivity summary for the "dtxsid".
      *
-     * @param aeid the matching aeid of the assays to retrieve.
+     * @param dtxsid the matching aeid of the assays to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the Summary data.
      */
     @Operation(summary = "Get summary by dtxsid", description = "Return summary data for given dtxsid", tags = {"bioactivity", "data"})
