@@ -43,7 +43,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: staging
+          ref: DEV-989
       - uses: actions/download-artifact@master
         with:
           name: bioactivity-jar
