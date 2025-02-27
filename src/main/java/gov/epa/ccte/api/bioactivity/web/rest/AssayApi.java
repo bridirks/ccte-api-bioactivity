@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -79,5 +80,5 @@ public interface AssayApi {
     })
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody
-    List<AssayAll> allAssays();
+    List<?> allAssays(@RequestParam(value = "projection", required = false, defaultValue = "assay-all") String projection);
 }
