@@ -2,6 +2,7 @@ package gov.epa.ccte.api.bioactivity.web.rest;
 
 import gov.epa.ccte.api.bioactivity.projection.assay.AssayAll;
 import gov.epa.ccte.api.bioactivity.projection.assay.AssayBase;
+import gov.epa.ccte.api.bioactivity.projection.assay.AssayCCDList;
 import gov.epa.ccte.api.bioactivity.projection.data.BioactivityDataAll;
 import gov.epa.ccte.api.bioactivity.repository.AssayAnnotationRepository;
 import gov.epa.ccte.api.bioactivity.web.rest.error.HigherNumberOfRequestsException;
@@ -47,11 +48,14 @@ public class AssayResource implements AssayApi {
     }
 
     @Override
-    public List<AssayAll> allAssays() {
-        log.debug("get all assays");
+    public List<?> allAssays( String projection) {
 
-        return annotationRepository.findBy(AssayAll.class);
-
+    	return switch (projection) {
+        case "ccd-assay-list" -> annotationRepository.findAssayAnnotations(AssayCCDList.class);
+        case "assay-all" -> annotationRepository.findBy(AssayAll.class);
+		default -> annotationRepository.findBy(AssayAll.class);
+    };  
+    
     }
 
 }

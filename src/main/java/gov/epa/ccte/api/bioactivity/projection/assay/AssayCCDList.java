@@ -1,0 +1,36 @@
+package gov.epa.ccte.api.bioactivity.projection.assay;
+
+public interface AssayCCDList extends AssayBase {
+	
+    String getVendorKey();
+    
+    String getVendorName();
+    
+    String getAssayName();
+    
+    Integer getAeid();
+    
+    String getAssayComponentName();
+    
+    String getAssayComponentEndpointName();
+    
+    String getAssayComponentEndpointDesc();
+    
+    String getEntrezGeneId();
+    
+    String getGeneName();
+    
+    String getGeneSymbol();
+    
+    String getCommonName();
+    
+    String getTaxonName();
+    
+    Integer getSingleConcChemicalCountActive();
+    
+    Integer getSingleConcChemicalCountTotal();
+    
+    Integer getMultiConcChemicalCountActive();
+    
+    Integer getMultiConcChemicalCountTotal();
+}
