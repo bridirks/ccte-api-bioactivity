@@ -1,6 +1,6 @@
 package gov.epa.ccte.api.bioactivity.projection.assay;
 
-public interface AssayCCDList extends AssayBase {
+public interface CcdAssayList extends AssayBase {
 	
     String getVendorKey();
     
