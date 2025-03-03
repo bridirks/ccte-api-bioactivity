@@ -5,6 +5,7 @@ import gov.epa.ccte.api.bioactivity.projection.assay.AssayBase;
 import gov.epa.ccte.api.bioactivity.projection.assay.CcdAssayList;
 import gov.epa.ccte.api.bioactivity.projection.data.BioactivityDataAll;
 import gov.epa.ccte.api.bioactivity.repository.AssayAnnotationRepository;
+import gov.epa.ccte.api.bioactivity.repository.BioactivityAggRepository;
 import gov.epa.ccte.api.bioactivity.web.rest.error.HigherNumberOfRequestsException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,11 +19,14 @@ import java.util.List;
 public class AssayResource implements AssayApi {
     final private AssayAnnotationRepository annotationRepository;
     
+    final private BioactivityAggRepository bioactivityAggRepository;
+    
     @Value("200")
     private Integer batchSize;
     
-    public AssayResource(AssayAnnotationRepository annotationRepository) {
+    public AssayResource(AssayAnnotationRepository annotationRepository, BioactivityAggRepository bioactivityAggRepository) {
         this.annotationRepository = annotationRepository;
+		this.bioactivityAggRepository = bioactivityAggRepository;
     }
 
     @Override
@@ -57,5 +61,12 @@ public class AssayResource implements AssayApi {
     };  
     
     }
+
+	@Override
+	public List<String> chemicalsByAeid(Integer aeid) {
+		
+        log.debug("aeid = {}", aeid);
+        return bioactivityAggRepository.getChemicalsByAeid(aeid);
+	}
 
 }

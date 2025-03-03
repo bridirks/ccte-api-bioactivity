@@ -48,6 +48,21 @@ public interface AssayApi {
     @RequestMapping(value = "/search/by-aeid/{aeid}", method = RequestMethod.GET)
     @ResponseBody
     AssayBase assayByAeid(@Parameter(required = true, description = "Numeric assay endpoint identifier", example = "3032") @PathVariable("aeid") Integer aeid);
+    
+    
+    /**
+     * {@code GET  /bioactivity/assay/chemicals/search/by-aeid/:aeid} : get array of DTXSIDs for the "aeid".
+     *
+     * @param aeid the matching aeid of the chemicals to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and array of DTXSIDs for the "aeid".
+     */
+    @Operation(summary = "Get list of DTXSIDs by aeid")
+    @ApiResponses(value= {
+            @ApiResponse(responseCode = "200", description = "OK",  content = @Content( mediaType = "application/json"))
+    })
+    @RequestMapping(value = "/chemicals/search/by-aeid/{aeid}", method = RequestMethod.GET)
+    @ResponseBody
+    List<String> chemicalsByAeid(@Parameter(required = true, description = "Numeric assay endpoint identifier", example = "3032") @PathVariable("aeid") Integer aeid);
 
     /**
      * {@code POST  /bioactivity/assay/by-aeid/} : get assay annotation for the batch of "aeids".
