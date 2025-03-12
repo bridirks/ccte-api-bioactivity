@@ -35,7 +35,7 @@ public class SearchAssayService {
         String searchValue = preprocessingSearchValue(value);
 
 
-        log.debug("input search word = {} and process search word = {}. ", value, searchValue);
+        log.debug("input search value = {} and process search value = {}. ", value, searchValue);
 
         List<SearchAssay> searchResult; // exact search and final results
         List<SearchAssay> searchResult2; // start-with results
