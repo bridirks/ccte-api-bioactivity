@@ -44,7 +44,8 @@ public class SearchAssayResource implements SearchAssayApi{
         log.debug("input search word = {} and process search word = {}. ", value, searchValue);
         
         List<SearchAssay> searchResult = searchRepository.findBySearchValueOrderByIdAsc(searchValue, SearchAssay.class);
-        
+        log.debug("{} records match for {}", searchResult.size(), value);
+
         return searchResult;
     }
 
