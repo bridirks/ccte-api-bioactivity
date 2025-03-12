@@ -40,14 +40,24 @@ public interface AssayApi {
      * @param aeid the matching aeid of the assays to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the asssay annotation.
      */
-    @Operation(summary = "Get annotation by aeid")
-    @ApiResponses(value= {
-            @ApiResponse(responseCode = "200", description = "OK",  content = @Content( mediaType = "application/json",
-                    schema=@Schema(oneOf = {AssayAnnotation.class}))),
-    })
-    @RequestMapping(value = "/search/by-aeid/{aeid}", method = RequestMethod.GET)
-    @ResponseBody
-    AssayBase assayByAeid(@Parameter(required = true, description = "Numeric assay endpoint identifier", example = "3032") @PathVariable("aeid") Integer aeid);
+	@Operation(summary = "Get assay data by aeid with projections", 
+	           description = "Fetches assay data based on the specified projection. Available projections: " +
+	                         "ccd-assay-annotation, ccd-assay-gene, ccd-assay-citations, ccd-assay-tcpl, ccd-assay-reagents, assay-all. " +
+	                         "If no projection is specified, the default full assay data will be returned.")
+	@ApiResponses(value = {
+	        @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json")),
+	        @ApiResponse(responseCode = "400", description = "Invalid projection type", content = @Content(mediaType = "application/json")),
+	        @ApiResponse(responseCode = "404", description = "No data found for the given aeid", content = @Content(mediaType = "application/json"))
+	})
+	@RequestMapping(value = "/search/by-aeid/{aeid}", method = RequestMethod.GET)
+	@ResponseBody
+	List<?> assayByAeid(
+	        @Parameter(required = true, description = "Numeric assay endpoint identifier", example = "3032")
+	        @PathVariable("aeid") Integer aeid,
+	        @Parameter(description = "Specifies which projection to use. Options: ccd-assay-annotation, ccd-assay-gene, ccd-assay-citations, " +
+	                                "ccd-assay-tcpl, ccd-assay-reagents, assay-all. If omitted, the full assay data is returned.")
+	        @RequestParam(value = "projection", required = false) String projection
+	);
     
     
     /**
