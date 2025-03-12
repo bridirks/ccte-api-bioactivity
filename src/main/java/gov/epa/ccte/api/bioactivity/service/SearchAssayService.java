@@ -19,14 +19,6 @@ public class SearchAssayService {
     public SearchAssayService(SearchAssayRepository searchRepository) {
     	this.searchRepository = searchRepository;
     }
-
-    public List<String> getErrorMsgs(String notFoundValue){
-    	
-        List<String> errors = new ArrayList<>();
-        errors.add("Searched by SearchValue: Found 0 results for '" + notFoundValue + "'.");
-        
-        return errors;
-    }
     
     public String preprocessingSearchValue(String searchValue){
 

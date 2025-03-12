@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 import gov.epa.ccte.api.bioactivity.domain.SearchAssay;
 import gov.epa.ccte.api.bioactivity.repository.SearchAssayRepository;
 import gov.epa.ccte.api.bioactivity.service.SearchAssayService;
-import gov.epa.ccte.api.bioactivity.web.rest.error.AssaySearchNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -46,10 +45,7 @@ public class SearchAssayResource implements SearchAssayApi{
         
         List<SearchAssay> searchResult = searchRepository.findBySearchValueOrderByIdAsc(searchValue, SearchAssay.class);
         
-        if (searchResult == null || searchResult.isEmpty())
-            throw new AssaySearchNotFoundException(assayService.getErrorMsgs(value));
-        else
-            return searchResult;
+        return searchResult;
     }
 
     @Override
@@ -59,9 +55,7 @@ public class SearchAssayResource implements SearchAssayApi{
         log.debug("input search word = {} and process search word = {}", value, searchValue);
         
         List<SearchAssay> searchResult = assayService.getContain(searchValue, top, SearchAssay.class);
-        if (searchResult == null || searchResult.isEmpty())
-            throw new AssaySearchNotFoundException(assayService.getErrorMsgs(value));
-        else
-            return searchResult;
+
+        return searchResult;
     }
 }
