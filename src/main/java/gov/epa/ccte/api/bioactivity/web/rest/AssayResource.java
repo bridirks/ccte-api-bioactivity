@@ -1,18 +1,18 @@
 package gov.epa.ccte.api.bioactivity.web.rest;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
 import gov.epa.ccte.api.bioactivity.projection.assay.AssayAll;
-import gov.epa.ccte.api.bioactivity.projection.assay.AssayBase;
 import gov.epa.ccte.api.bioactivity.projection.assay.CcdAssayList;
-import gov.epa.ccte.api.bioactivity.projection.data.BioactivityDataAll;
+import gov.epa.ccte.api.bioactivity.repository.AssayAnnotationAggRepository;
 import gov.epa.ccte.api.bioactivity.repository.AssayAnnotationRepository;
 import gov.epa.ccte.api.bioactivity.repository.BioactivityAggRepository;
 import gov.epa.ccte.api.bioactivity.web.rest.error.HigherNumberOfRequestsException;
 import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -20,22 +20,41 @@ public class AssayResource implements AssayApi {
     final private AssayAnnotationRepository annotationRepository;
     
     final private BioactivityAggRepository bioactivityAggRepository;
+    final private AssayAnnotationAggRepository assayAnnotationAggRepository;
+
     
     @Value("200")
     private Integer batchSize;
     
-    public AssayResource(AssayAnnotationRepository annotationRepository, BioactivityAggRepository bioactivityAggRepository) {
+    public AssayResource(AssayAnnotationRepository annotationRepository, BioactivityAggRepository bioactivityAggRepository, AssayAnnotationAggRepository assayAnnotationAggRepository) {
         this.annotationRepository = annotationRepository;
 		this.bioactivityAggRepository = bioactivityAggRepository;
+		this.assayAnnotationAggRepository = assayAnnotationAggRepository;
     }
 
     @Override
-    public AssayBase assayByAeid(Integer aeid) {
-        log.debug("aeid = {}", aeid);
+    public List<?> assayByAeid(Integer aeid, String projection) {
+        log.debug("Fetching assay data for aeid = {} with projection = {}", aeid, projection);
 
-        AssayAll data = annotationRepository.findByAeid(aeid, AssayAll.class);
+        if (projection == null || projection.isEmpty()) {
+            AssayAll result = annotationRepository.findByAeid(aeid, AssayAll.class);
+            return result != null ? List.of(result) : List.of(); 
+        }
 
-        return data;
+        Object result = switch (projection) {
+            case "ccd-assay-annotation" -> assayAnnotationAggRepository.findAnnotationByAeid(aeid);
+            case "ccd-assay-gene" -> assayAnnotationAggRepository.findGeneByAeid(aeid);
+            case "ccd-assay-citations" -> assayAnnotationAggRepository.findCitationsByAeid(aeid);
+            default -> annotationRepository.findByAeid(aeid, AssayAll.class);
+        };
+
+        if (result instanceof List<?>) {
+            return (List<?>) result;
+        } else if (result != null) {
+            return List.of(result); 
+        } else {
+            return List.of(); 
+        }
     }
     
     @Override
