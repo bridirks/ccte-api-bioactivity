@@ -2,9 +2,11 @@ name: Security Workflows
 
 on:
   push:
-    branches: [ dev, staging, dev-1008 ]
+    branches: [ dev, staging, dev-100 ]
     tags: [ 'v*.*.*' ]
-
+  schedule:
+   - cron: '00 9 * * 1,3,5' 
+   
 jobs:
   container-scan:
     runs-on: th878
