@@ -12,6 +12,6 @@ jobs:
       uses: actions/checkout@v4
     - name:  send email every monday and thursday
       run: |
-           cd /data/watchtower/ccd/container-results/app1
+           cd /data/watchtower/ctx-API/container-results/api-bioactivity
            ls -la
            python3 email.py 
