@@ -12,4 +12,7 @@ public class Mc3Param implements Serializable {
 
     private BigDecimal[] logc;
     private BigDecimal[] resp;
+    private BigDecimal[] bval;
+    private BigDecimal[] pval;
+    
 }

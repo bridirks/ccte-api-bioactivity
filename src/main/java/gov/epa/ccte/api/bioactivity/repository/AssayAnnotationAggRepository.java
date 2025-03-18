@@ -16,7 +16,7 @@ import java.util.List;
 
 @SuppressWarnings("unused")
 @RepositoryRestResource(exported = false)
-public interface AssayAnnotationAggRepository extends JpaRepository<AssayAnnotationAgg, Integer> {
+public interface AssayAnnotationAggRepository extends JpaRepository<AssayAnnotationAgg, Long> {
 
 	@Query(value = """
 			SELECT DISTINCT aeid, assay_component_endpoint_name, assay_component_endpoint_desc, assay_function_type,
@@ -29,7 +29,7 @@ public interface AssayAnnotationAggRepository extends JpaRepository<AssayAnnotat
 			       cell_free_component_source, cell_short_name, cell_growth_mode, assay_footprint, assay_format_type,
 			       assay_format_type_sub, content_readout_type, dilution_solvent, dilution_solvent_percent_max,
 			       assay_source_name, assay_source_long_name, assay_source_desc
-			FROM invitro.mv_assay_annotation
+			FROM invitro41.mv_assay_annotation
 			WHERE aeid = :aeid
 			""", nativeQuery = true)
 	List<AssayAnnotationAgg> findAnnotationByAeid(@Param("aeid") Integer aeid);
@@ -45,7 +45,7 @@ public interface AssayAnnotationAggRepository extends JpaRepository<AssayAnnotat
 			           element ->> 'oth_sourc' AS otherSource,
 			           element ->> 'title'     AS title,
 			           element ->> 'url'       AS url
-			    FROM invitro.mv_assay_annotation maa,
+			    FROM invitro41.mv_assay_annotation maa,
 			         jsonb_array_elements(maa.citations\\:\\:jsonb) AS element
 			    WHERE maa.citations IS NOT NULL AND aeid = :aeid
 			""", nativeQuery = true)
@@ -56,7 +56,7 @@ public interface AssayAnnotationAggRepository extends JpaRepository<AssayAnnotat
 			           element ->> 'entrez_gene_id' AS entrezGeneId,
 			           element ->> 'gene_name'      AS geneName,
 			           element ->> 'gene_symbol'    AS geneSymbol
-			    FROM invitro.mv_assay_annotation maa,
+			    FROM invitro41.mv_assay_annotation maa,
 			         jsonb_array_elements(maa.gene\\:\\:jsonb) AS element
 			    WHERE gene IS NOT NULL AND aeid = :aeid
 			""", nativeQuery = true)

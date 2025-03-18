@@ -10,9 +10,9 @@ import java.util.Map;
  * Projection for {@link gov.epa.ccte.api.bioactivity.domain.BioactivityData}
  */
 public interface BioactivityDataAll extends BioactivityDataBase {
-    Integer getM4id();
+    Long getM4id();
 
-    Integer getAeid();
+    Long getAeid();
 
     String getSpid();
 

@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Immutable
-@Table(name = "mv_chemical_agg", schema = "invitro")
+@Table(name = "mv_chemical_agg", schema = "invitro41")
 public class ChemicalAgg {
 
     @Id

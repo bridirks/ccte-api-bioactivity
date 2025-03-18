@@ -11,13 +11,9 @@ import java.util.List;
  * Projection for {@link AssayAnnotation}
  */
 public interface AssayAll extends AssayBase{
-    Integer getAeid();
+    Long getAeid();
 
     String getAssayComponentEndpointName();
-
-    Integer getExportReady();
-
-    Integer getInternalReady();
 
     String getAssayComponentEndpointDesc();
 
@@ -25,7 +21,7 @@ public interface AssayAll extends AssayBase{
 
     String getNormalizedDataType();
 
-    Integer getBurstAssay();
+    Short getBurstAssay();
 
     String getKeyPositiveControl();
 
@@ -39,9 +35,9 @@ public interface AssayAll extends AssayBase{
 
     String getIntendedTargetFamilySub();
 
-    Integer getCellViabilityAssay();
+    Short getCellViabilityAssay();
 
-    Integer getDataUsability();
+    Short getDataUsability();
 
     Integer getAcid();
 
