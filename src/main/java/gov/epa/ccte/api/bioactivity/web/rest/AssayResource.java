@@ -87,5 +87,6 @@ public class AssayResource implements AssayApi {
 		
         log.debug("aeid = {}", aeid);
         return bioactivityAggRepository.getChemicalsByAeid(aeid);
-	}	
+	}
+	
 }
