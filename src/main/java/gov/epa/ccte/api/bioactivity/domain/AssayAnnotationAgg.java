@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "mv_assay_agg", schema = "invitro41")
+@Table(name = "mv_assay_agg", schema = "invitro")
 public class AssayAnnotationAgg {
     
     @Id

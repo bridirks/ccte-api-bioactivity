@@ -23,7 +23,7 @@ import java.util.Map;
 @Schema(description = "US EPA'sToxicity Forecaster (ToxCast) program makes invitro medium- and high-throughput screening assay data publicly available for prioritization and hazard characterization.The data endpoint returns chemical information, normalized concentration-response values, all models fit parameters, winning model fit parameters, and cautionary flags for a given ‘AEIDs’, ‘m4ids’, ‘SPIDs’, or ‘DTXSIDs’. Regular ToxCast/invitrodb users may find it easier to use the tcpl R package, which has integrated to make API data retrievable in a familiar format. See the tcpl vignette regarding data retrieval via API for more information.")
 @Entity
 @Immutable
-@Table(name = "mv_bioactivity", schema = "invitro41")
+@Table(name = "mv_bioactivity", schema = "invitro")
 public class BioactivityData {
     @Id
     @Column(name = "m4id")
@@ -86,13 +86,13 @@ public class BioactivityData {
     @Schema(description = "Concentration at max_med")
     private Double maxMedConc;
 
-    @Column(name = "logc_max")
+    @Column(name = "conc_max")
     @Schema(description = "Maximum tested log concentration, log uM ")
-    private Double logcMax;
+    private Double concMax;
 
-    @Column(name = "logc_min")
+    @Column(name = "conc_min")
     @Schema(description = "Minimum tested log concentration, log uM")
-    private Double logcMin;
+    private Double concMin;
 
     @Column(name = "nconc")
     @Schema(description = "Number of concentrations tested")
@@ -106,13 +106,13 @@ public class BioactivityData {
     @Schema(description = "Number of replicates in the concentration series")
     private Double nrep;
 
-    @Column(name = "nmed_gtbl")
+    @Column(name = "nmed_gtbl_pos")
     @Schema(description = "Number of median values greater than 3bmad")
-    private Integer nmedGtbl;
+    private Integer nmedGtblPos;
 
-    @Column(name = "tmpi")
-    @Schema(description = "Ignore, temporary index used for uploading purposes")
-    private Integer tmpi;
+    @Column(name = "nmed_gtbl_neg")
+    @Schema(description = "Number of median values greater than 3bmad")
+    private Integer nmedGtblNeg;
 
     @Column(name = "m5id")
     @Schema(description = "Level 5 ID, autoincremented primary key")
