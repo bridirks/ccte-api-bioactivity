@@ -1,11 +1,8 @@
 package gov.epa.ccte.api.bioactivity.repository;
 
 import gov.epa.ccte.api.bioactivity.domain.AssayAnnotationAgg;
-import gov.epa.ccte.api.bioactivity.projection.assay.CcdAssayCitation;
-import gov.epa.ccte.api.bioactivity.projection.assay.CcdAssayGene;
+import gov.epa.ccte.api.bioactivity.projection.assay.*;
 
-import gov.epa.ccte.api.bioactivity.projection.assay.CcDAssayAnnotation;
-import gov.epa.ccte.api.bioactivity.projection.assay.CcdTcplData;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -161,9 +158,22 @@ public interface AssayAnnotationAggRepository extends JpaRepository<AssayAnnotat
 						   jsonb_array_elements(sc2_methods\\:\\:jsonb) as element_sc2
 					  where element_sc2 ->> 'sc2_mthd' is not null
 						 or element_sc2 ->> 'desc' is not null) tcpl
-				where aeid = 2688
+				where aeid = :aeid
 				ORDER BY assayRunType, assayRunType, methodName, description;
 	""", nativeQuery = true)
 	List<CcdTcplData> findTcplByAeid(@Param("aeid") Integer aeid);
+
+	@Query(value = """
+		select row_number() over (
+			order by key_assay_reagent_type, key_assay_reagent) as orderId,
+			   key_assay_reagent_type                           as reagentType,
+			   key_assay_reagent                                as reagentValue,
+			   technological_target_type                        as cultureOrAssay
+		from (select key_assay_reagent_type, key_assay_reagent, technological_target_type
+			  from invitro.mv_assay_annotation maa
+			  where aeid = :aeid
+			  group by key_assay_reagent_type, key_assay_reagent, technological_target_type) reagent
+	""", nativeQuery = true)
+	List<CcdReagents> findReagentByAeid(@Param("aeid") Integer aeid);
 
 }
