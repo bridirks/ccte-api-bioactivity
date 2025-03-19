@@ -38,9 +38,9 @@ public interface BioactivityDataAll extends BioactivityDataBase {
 
     Double getMaxMedConc();
 
-    Double getLogcMax();
+    Double getConcMax();
 
-    Double getLogcMin();
+    Double getConcMin();
 
     Integer getNconc();
 
@@ -48,9 +48,9 @@ public interface BioactivityDataAll extends BioactivityDataBase {
 
     Double getNrep();
 
-    Integer getNmedGtbl();
-
-    Integer getTmpi();
+    Integer getNmedGtblPos();
+    
+    Integer getNmedGtblNeg();
 
     Long getM5id();
 

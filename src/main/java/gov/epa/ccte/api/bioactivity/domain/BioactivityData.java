@@ -86,13 +86,13 @@ public class BioactivityData {
     @Schema(description = "Concentration at max_med")
     private Double maxMedConc;
 
-    @Column(name = "logc_max")
+    @Column(name = "conc_max")
     @Schema(description = "Maximum tested log concentration, log uM ")
-    private Double logcMax;
+    private Double concMax;
 
-    @Column(name = "logc_min")
+    @Column(name = "conc_min")
     @Schema(description = "Minimum tested log concentration, log uM")
-    private Double logcMin;
+    private Double concMin;
 
     @Column(name = "nconc")
     @Schema(description = "Number of concentrations tested")
@@ -106,13 +106,13 @@ public class BioactivityData {
     @Schema(description = "Number of replicates in the concentration series")
     private Double nrep;
 
-    @Column(name = "nmed_gtbl")
+    @Column(name = "nmed_gtbl_pos")
     @Schema(description = "Number of median values greater than 3bmad")
-    private Integer nmedGtbl;
+    private Integer nmedGtblPos;
 
-    @Column(name = "tmpi")
-    @Schema(description = "Ignore, temporary index used for uploading purposes")
-    private Integer tmpi;
+    @Column(name = "nmed_gtbl_neg")
+    @Schema(description = "Number of median values greater than 3bmad")
+    private Integer nmedGtblNeg;
 
     @Column(name = "m5id")
     @Schema(description = "Level 5 ID, autoincremented primary key")

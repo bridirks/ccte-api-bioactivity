@@ -81,10 +81,6 @@ public class AssayAnnotation {
     @Schema(description = "Indicator of the impact of cytotoxicity in confounding (1) or no cytotoxic impact (0)")
     private Short cellViabilityAssay;
 
-    @Column(name = "data_usability")
-    @Schema(description = "Indicator of the usability of data (1) or no (0)")
-    private Short dataUsability;
-
     @Column(name = "acid")
     @Schema(description = "Assay component ID")
     private Integer acid;

@@ -17,7 +17,7 @@ import java.util.List;
 @RepositoryRestResource(exported = false)
 public interface AssayAnnotationAggRepository extends JpaRepository<AssayAnnotationAgg, Long> {
 
-	@Query(value = """   
+@Query(value = """   
    			SELECT aeid,
              assay_component_endpoint_name as AssayComponentEndpointName,
              assay_component_endpoint_desc as AssayComponentEndpointDesc,

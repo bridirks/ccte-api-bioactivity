@@ -37,8 +37,6 @@ public interface AssayAll extends AssayBase{
 
     Short getCellViabilityAssay();
 
-    Short getDataUsability();
-
     Integer getAcid();
 
     String getAssayComponentName();
