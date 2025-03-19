@@ -46,6 +46,7 @@ public class AssayResource implements AssayApi {
             case "ccd-assay-annotation" -> assayAnnotationAggRepository.findAnnotationByAeid(aeid);
             case "ccd-assay-gene" -> assayAnnotationAggRepository.findGeneByAeid(aeid);
             case "ccd-assay-citations" -> assayAnnotationAggRepository.findCitationsByAeid(aeid);
+            case "ccd-tcpl-processing" -> assayAnnotationAggRepository.findTcplByAeid(aeid);
             default -> annotationRepository.findByAeid(aeid, AssayAll.class);
         };
 
