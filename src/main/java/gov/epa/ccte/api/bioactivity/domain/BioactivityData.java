@@ -23,7 +23,7 @@ import java.util.Map;
 @Schema(description = "US EPA'sToxicity Forecaster (ToxCast) program makes invitro medium- and high-throughput screening assay data publicly available for prioritization and hazard characterization.The data endpoint returns chemical information, normalized concentration-response values, all models fit parameters, winning model fit parameters, and cautionary flags for a given ‘AEIDs’, ‘m4ids’, ‘SPIDs’, or ‘DTXSIDs’. Regular ToxCast/invitrodb users may find it easier to use the tcpl R package, which has integrated to make API data retrievable in a familiar format. See the tcpl vignette regarding data retrieval via API for more information.")
 @Entity
 @Immutable
-@Table(name = "mv_bioactivity", schema = "invitro41")
+@Table(name = "mv_bioactivity", schema = "invitro")
 public class BioactivityData {
     @Id
     @Column(name = "m4id")

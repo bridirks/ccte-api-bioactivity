@@ -1,6 +1,6 @@
 package gov.epa.ccte.api.bioactivity.projection.assay;
 
-public interface AssayCitation {
+public interface CcdAssayCitation {
 	
 	Long getAeid();
 

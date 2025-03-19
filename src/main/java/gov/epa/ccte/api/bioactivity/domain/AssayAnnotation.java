@@ -17,7 +17,7 @@ import java.util.List;
 @Setter
 @Schema(description = "US EPA's Toxicity Forecaster (ToxCast) program makes invitro medium- and high-throughput screening assay data publicly available for prioritization and hazard characterization. Given ToxCast includes a heterogeneous set of assays across a diverse biological space, annotations in the database help flexibly aggregate and differentiate processed data. The definition of an “assay” is, in ToxCast, broken into 4 assay elements: assay source: the vendor/origination of the data, assay: the procedure to generate the component data, assay component: the raw data readout(s), assay component endpoint: the normalized component data. The assay element annotations are often short in a standardized format or use a controlled term list. Assay” resource endpoints provide assay metadata for specific or all invitrodb ‘aeids’ (assay endpoint ids). These include annotations from invitrodb’s assay, assay_component, assay_component_endpoint, assay_list, assay_source, and gene tables, all returned in a by-aeid format. Regular ToxCast/invitrodb users may find it easier to use the tcpl R package, which has integrated to make API data retrievable in a familiar format. See the tcpl vignette regarding data retrieval via API for more information.")
 @Entity
-@Table(name = "mv_assay_annotation", schema = "invitro41")
+@Table(name = "mv_assay_annotation", schema = "invitro")
 public class AssayAnnotation {
     @Id
     @Column(name = "aeid", nullable = false)
