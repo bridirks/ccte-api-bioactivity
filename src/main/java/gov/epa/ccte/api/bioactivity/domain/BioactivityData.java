@@ -5,17 +5,14 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.Map;
 
 /**
@@ -26,16 +23,16 @@ import java.util.Map;
 @Schema(description = "US EPA'sToxicity Forecaster (ToxCast) program makes invitro medium- and high-throughput screening assay data publicly available for prioritization and hazard characterization.The data endpoint returns chemical information, normalized concentration-response values, all models fit parameters, winning model fit parameters, and cautionary flags for a given ‘AEIDs’, ‘m4ids’, ‘SPIDs’, or ‘DTXSIDs’. Regular ToxCast/invitrodb users may find it easier to use the tcpl R package, which has integrated to make API data retrievable in a familiar format. See the tcpl vignette regarding data retrieval via API for more information.")
 @Entity
 @Immutable
-@Table(name = "v_bioactivity_data", schema = "bio4_1")
+@Table(name = "mv_bioactivity", schema = "invitro41")
 public class BioactivityData {
     @Id
     @Column(name = "m4id")
     @Schema(description = "Level 4 ID, autoincremented primary key")
-    private Integer m4id;
+    private Long m4id;
 
     @Column(name = "aeid")
     @Schema(description = "Assay endpoint ID")
-    private Integer aeid;
+    private Long aeid;
 
     @Size(max = 50)
     @Column(name = "spid", length = 50)
@@ -183,22 +180,5 @@ public class BioactivityData {
     @JdbcTypeCode(SqlTypes.JSON)
     @Schema(description = "JSON object containing Level 6 Multi-concentration (MC6) Flags")
     private Mc6Param mc6Param;
-
-    @NotNull
-    @Column(name = "export_date", nullable = false)
-    @Schema(description = "Date view was exported")
-    private LocalDate exportDate;
-
-    @Size(max = 28)
-    @NotNull
-    @ColumnDefault("''")
-    @Column(name = "version", nullable = false, length = 28)
-    @Schema(description = "Version of invitrodb data")
-    private String version;
-
-    @ColumnDefault("CURRENT_DATE")
-    @Column(name = "import_date")
-    @Schema(description = "Date imported to API")
-    private LocalDate importDate;
 
 }
