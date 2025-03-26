@@ -29,6 +29,7 @@ public interface AssayAnnotationRepository extends JpaRepository<AssayAnnotation
                 maa.assay_component_name AS assayComponentName,
                 maa.assay_component_endpoint_name AS assayComponentEndpointName,
                 maa.assay_component_endpoint_desc AS assayComponentEndpointDesc,
+                maa.assay_desc || '<br>' || maa.assay_component_desc || '<br>' || maa.assay_component_endpoint_desc AS ccdAssayDetail,
                 (gene->0)->>'entrez_gene_id' AS entrezGeneId,
                 (gene->0)->>'gene_name' AS geneName,
                 (gene->0)->>'gene_symbol' AS geneSymbol,
