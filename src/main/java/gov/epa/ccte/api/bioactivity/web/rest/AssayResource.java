@@ -7,6 +7,7 @@ import gov.epa.ccte.api.bioactivity.projection.data.BioactivityDataAll;
 import gov.epa.ccte.api.bioactivity.repository.AssayAnnotationAggRepository;
 import gov.epa.ccte.api.bioactivity.repository.AssayAnnotationRepository;
 import gov.epa.ccte.api.bioactivity.repository.BioactivityAggRepository;
+import gov.epa.ccte.api.bioactivity.service.AssayService;
 import gov.epa.ccte.api.bioactivity.web.rest.error.HigherNumberOfRequestsException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,15 +23,18 @@ public class AssayResource implements AssayApi {
     
     final private BioactivityAggRepository bioactivityAggRepository;
     final private AssayAnnotationAggRepository assayAnnotationAggRepository;
+    
+    private final AssayService assayService;
 
     
     @Value("200")
     private Integer batchSize;
     
-    public AssayResource(AssayAnnotationRepository annotationRepository, BioactivityAggRepository bioactivityAggRepository, AssayAnnotationAggRepository assayAnnotationAggRepository) {
+    public AssayResource(AssayAnnotationRepository annotationRepository, BioactivityAggRepository bioactivityAggRepository, AssayAnnotationAggRepository assayAnnotationAggRepository, AssayService assayService) {
         this.annotationRepository = annotationRepository;
 		this.bioactivityAggRepository = bioactivityAggRepository;
 		this.assayAnnotationAggRepository = assayAnnotationAggRepository;
+		this.assayService = assayService;
     }
 
     @Override
@@ -77,7 +81,7 @@ public class AssayResource implements AssayApi {
     public List<?> allAssays( String projection) {
 
     	return switch (projection) {
-        case "ccd-assay-list" -> annotationRepository.findAssayAnnotations(CcdAssayList.class);
+        case "ccd-assay-list" -> assayService.wrapCcdAssayList(annotationRepository.findAssayAnnotations(CcdAssayList.class));
         case "assay-all" -> annotationRepository.findBy(AssayAll.class);
 		default -> annotationRepository.findBy(AssayAll.class);
     };  
