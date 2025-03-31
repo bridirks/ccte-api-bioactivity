@@ -30,9 +30,9 @@ public interface AssayAnnotationRepository extends JpaRepository<AssayAnnotation
                 maa.assay_component_endpoint_name AS assayComponentEndpointName,
                 maa.assay_component_endpoint_desc AS assayComponentEndpointDesc,
                 maa.assay_desc || '<br>' || maa.assay_component_desc || '<br>' || maa.assay_component_endpoint_desc AS ccdAssayDetail,
-                (gene->0)->>'entrez_gene_id' AS entrezGeneId,
-                (gene->0)->>'gene_name' AS geneName,
-                (gene->0)->>'gene_symbol' AS geneSymbol,
+                gene_elem->>'entrez_gene_id' AS entrezGeneId,
+                gene_elem->>'gene_name' AS geneName,
+                gene_elem->>'gene_symbol' AS geneSymbol,
                 maa.common_name AS commonName,
                 maa.taxon_name AS taxonName,
                 agg.active_sc AS singleConcChemicalCountActive,
@@ -44,7 +44,8 @@ public interface AssayAnnotationRepository extends JpaRepository<AssayAnnotation
             JOIN 
                 invitro.mv_assay_agg agg 
             ON 
-                maa.aeid = agg.aeid
+                maa.aeid = agg.aeid, 
+                json_array_elements(maa.gene) AS gene_elem
             """, nativeQuery = true)
         <T> List<T> findAssayAnnotations(Class<T> type);
 
