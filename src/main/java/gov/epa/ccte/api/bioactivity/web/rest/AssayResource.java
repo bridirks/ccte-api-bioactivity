@@ -4,6 +4,7 @@ import gov.epa.ccte.api.bioactivity.projection.assay.AssayAll;
 import gov.epa.ccte.api.bioactivity.projection.assay.AssayBase;
 import gov.epa.ccte.api.bioactivity.projection.assay.CcdAssayList;
 import gov.epa.ccte.api.bioactivity.projection.data.BioactivityDataAll;
+import gov.epa.ccte.api.bioactivity.repository.AOPRepository;
 import gov.epa.ccte.api.bioactivity.repository.AssayAnnotationAggRepository;
 import gov.epa.ccte.api.bioactivity.repository.AssayAnnotationRepository;
 import gov.epa.ccte.api.bioactivity.repository.BioactivityAggRepository;
@@ -23,18 +24,20 @@ public class AssayResource implements AssayApi {
     
     final private BioactivityAggRepository bioactivityAggRepository;
     final private AssayAnnotationAggRepository assayAnnotationAggRepository;
-    
+    final private AOPRepository aopRepository;
+
     private final AssayService assayService;
 
     
     @Value("200")
     private Integer batchSize;
     
-    public AssayResource(AssayAnnotationRepository annotationRepository, BioactivityAggRepository bioactivityAggRepository, AssayAnnotationAggRepository assayAnnotationAggRepository, AssayService assayService) {
+    public AssayResource(AssayAnnotationRepository annotationRepository, BioactivityAggRepository bioactivityAggRepository, AssayAnnotationAggRepository assayAnnotationAggRepository, AOPRepository aopRepository, AssayService assayService) {
         this.annotationRepository = annotationRepository;
 		this.bioactivityAggRepository = bioactivityAggRepository;
 		this.assayAnnotationAggRepository = assayAnnotationAggRepository;
-		this.assayService = assayService;
+        this.aopRepository = aopRepository;
+        this.assayService = assayService;
     }
 
     @Override
@@ -52,6 +55,7 @@ public class AssayResource implements AssayApi {
             case "ccd-assay-citations" -> assayAnnotationAggRepository.findCitationsByAeid(aeid);
             case "ccd-tcpl-processing" -> assayAnnotationAggRepository.findTcplByAeid(aeid);
             case "ccd-assay-reagents" -> assayAnnotationAggRepository.findReagentByAeid(aeid);
+            case "ccd-assay-aop" -> aopRepository.findByToxcastAeid(aeid);
             default -> annotationRepository.findByAeid(aeid, AssayAll.class);
         };
 
