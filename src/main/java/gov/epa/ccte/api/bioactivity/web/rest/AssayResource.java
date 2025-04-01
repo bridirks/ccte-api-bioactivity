@@ -1,9 +1,7 @@
 package gov.epa.ccte.api.bioactivity.web.rest;
 
 import gov.epa.ccte.api.bioactivity.projection.assay.AssayAll;
-import gov.epa.ccte.api.bioactivity.projection.assay.AssayBase;
 import gov.epa.ccte.api.bioactivity.projection.assay.CcdAssayList;
-import gov.epa.ccte.api.bioactivity.projection.data.BioactivityDataAll;
 import gov.epa.ccte.api.bioactivity.repository.*;
 import gov.epa.ccte.api.bioactivity.service.AssayService;
 import gov.epa.ccte.api.bioactivity.web.rest.error.HigherNumberOfRequestsException;
