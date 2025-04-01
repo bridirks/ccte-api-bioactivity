@@ -91,7 +91,24 @@ public interface AssayApi {
             content = {@Content(array = @ArraySchema(schema = @Schema(implementation = String.class)),
                     examples = {@ExampleObject("\"[\\\"111\\\",\\\"3032\\\"]\"")})})
                                                     @RequestBody String[] aeids);
-    
+
+    /**
+     * {@code GET  /bioactivity/assay/single-conc/search/by-aeid/:aeid} : single conc data for the "aeid".
+     *
+     * @param aeid the matching aeid of the single conc data to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and array of single conc data for the "aeid".
+     */
+    @Operation(summary = "Get single conc data by aeid")
+    @ApiResponses(value= {
+            @ApiResponse(responseCode = "200", description = "OK",  content = @Content( mediaType = "application/json"))
+    })
+    @RequestMapping(value = "/single-conc/search/by-aeid/{aeid}", method = RequestMethod.GET)
+    @ResponseBody
+    List<?> singleConcDataByAeid(@Parameter(required = true, description = "Numeric assay endpoint identifier", example = "3032") @PathVariable("aeid") Integer aeid
+            , @RequestParam(value = "projection", required = false, defaultValue = "single-conc") String projection
+    );
+
+
     /**
      * {@code GET  /bioactivity/assay/} : get all assays annotation .
      * *

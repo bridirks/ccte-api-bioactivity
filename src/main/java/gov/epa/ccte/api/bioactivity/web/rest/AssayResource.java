@@ -4,10 +4,7 @@ import gov.epa.ccte.api.bioactivity.projection.assay.AssayAll;
 import gov.epa.ccte.api.bioactivity.projection.assay.AssayBase;
 import gov.epa.ccte.api.bioactivity.projection.assay.CcdAssayList;
 import gov.epa.ccte.api.bioactivity.projection.data.BioactivityDataAll;
-import gov.epa.ccte.api.bioactivity.repository.AOPRepository;
-import gov.epa.ccte.api.bioactivity.repository.AssayAnnotationAggRepository;
-import gov.epa.ccte.api.bioactivity.repository.AssayAnnotationRepository;
-import gov.epa.ccte.api.bioactivity.repository.BioactivityAggRepository;
+import gov.epa.ccte.api.bioactivity.repository.*;
 import gov.epa.ccte.api.bioactivity.service.AssayService;
 import gov.epa.ccte.api.bioactivity.web.rest.error.HigherNumberOfRequestsException;
 import lombok.extern.slf4j.Slf4j;
@@ -28,16 +25,19 @@ public class AssayResource implements AssayApi {
 
     private final AssayService assayService;
 
+    private final BioactivityScRepository bioactivityScRepository;
+
     
     @Value("200")
     private Integer batchSize;
     
-    public AssayResource(AssayAnnotationRepository annotationRepository, BioactivityAggRepository bioactivityAggRepository, AssayAnnotationAggRepository assayAnnotationAggRepository, AOPRepository aopRepository, AssayService assayService) {
+    public AssayResource(AssayAnnotationRepository annotationRepository, BioactivityAggRepository bioactivityAggRepository, AssayAnnotationAggRepository assayAnnotationAggRepository, AOPRepository aopRepository, AssayService assayService, BioactivityScRepository bioactivityScRepository) {
         this.annotationRepository = annotationRepository;
 		this.bioactivityAggRepository = bioactivityAggRepository;
 		this.assayAnnotationAggRepository = assayAnnotationAggRepository;
         this.aopRepository = aopRepository;
         this.assayService = assayService;
+        this.bioactivityScRepository = bioactivityScRepository;
     }
 
     @Override
@@ -79,6 +79,15 @@ public class AssayResource implements AssayApi {
         List<AssayAll> data = annotationRepository.findByAeidInOrderByAeidAsc(aeids, AssayAll.class);
 
         return data;
+    }
+
+    @Override
+    public List<?> singleConcDataByAeid(Integer aeid, String projection) {
+        return switch (projection) {
+            case "single-conc" -> bioactivityScRepository.findByAeid(aeid);
+            case "ccd-single-conc" -> bioactivityScRepository.getSigleConcDataByAeid(aeid);
+            default -> bioactivityScRepository.findByAeid(aeid);
+        };
     }
 
     @Override
