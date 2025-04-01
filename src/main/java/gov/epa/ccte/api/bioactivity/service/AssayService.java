@@ -29,6 +29,8 @@ public class AssayService {
 	            map.put("assayComponentEndpointName", assay.getAssayComponentEndpointName());
 	            map.put("assayComponentEndpointDesc", assay.getAssayComponentEndpointDesc());
 	            map.put("ccdAssayDetail", assay.getCcdAssayDetail());
+	            map.put("commonName", assay.getCommonName());
+	            map.put("taxonName", assay.getTaxonName());
 
 	            map.put("geneArray", new ArrayList<Map<String, Object>>());
 
