@@ -58,7 +58,8 @@ public interface AssayAnnotationAggRepository extends JpaRepository<AssayAnnotat
              dilution_solvent_percent_max  as DilutionSolventPercentMax,
              assay_source_name             as AssaySourceName,
              assay_source_long_name        as AssaySourceLongName,
-             assay_source_desc             as AssaySourceDesc
+             assay_source_desc             as AssaySourceDesc,
+             CONCAT('https://clowder.edap-cluster.com/files/', clowder_uid) AS ToxCastAssayDescription
       FROM invitro.mv_assay_annotation
 			WHERE aeid = :aeid
 			""", nativeQuery = true)

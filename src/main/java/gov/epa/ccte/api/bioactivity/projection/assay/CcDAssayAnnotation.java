@@ -91,4 +91,6 @@ public interface CcDAssayAnnotation {
     String getAssaySourceLongName();
 
     String getAssaySourceDesc();
+    
+    String getToxCastAssayDescription();
 }
