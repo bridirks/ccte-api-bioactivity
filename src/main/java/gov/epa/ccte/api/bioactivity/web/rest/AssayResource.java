@@ -82,9 +82,9 @@ public class AssayResource implements AssayApi {
     @Override
     public List<?> singleConcDataByAeid(Integer aeid, String projection) {
         return switch (projection) {
-            case "single-conc" -> bioactivityScRepository.findByAeid(aeid);
+            case "single-conc" -> bioactivityScRepository.findByAeidAndChidRep(aeid, (short) 1);
             case "ccd-single-conc" -> bioactivityScRepository.getSigleConcDataByAeid(aeid);
-            default -> bioactivityScRepository.findByAeid(aeid);
+            default -> bioactivityScRepository.findByAeidAndChidRep(aeid, (short) 1);
         };
     }
 

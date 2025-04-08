@@ -12,7 +12,6 @@ import java.util.List;
 @RepositoryRestResource(exported = false)
 public interface BioactivityScRepository extends JpaRepository<BioactivitySc, Long> {
 
-    List<BioactivitySc> findByAeid(Integer aeid);
     @Query(value = """
             select cd.preferred_name                as preferredName,
                    sc.dsstox_substance_id           as dtxsid,
@@ -26,7 +25,9 @@ public interface BioactivityScRepository extends JpaRepository<BioactivitySc, Lo
             from invitro.mv_bioactivity_sc sc
                      join invitro.mv_assay_annotation an on sc.aeid = an.aeid
                      left join ch.chemical_details cd on cd.dtxsid = sc.dsstox_substance_id
-            where sc.aeid = :aeid
+            where sc.aeid = :aeid and sc.chid_rep = 1
             """, nativeQuery = true)
     List<CcdSingleConcData> getSigleConcDataByAeid(Integer aeid);
+
+    List<BioactivitySc> findByAeidAndChidRep(Integer aeid, Short chidRep);
 }
