@@ -1,5 +1,6 @@
 package gov.epa.ccte.api.bioactivity.web.rest;
 
+import gov.epa.ccte.api.bioactivity.domain.AedData;
 import gov.epa.ccte.api.bioactivity.domain.AssayListCount;
 import gov.epa.ccte.api.bioactivity.domain.ChemicalAgg;
 import gov.epa.ccte.api.bioactivity.projection.data.BioactivityDataBase;
@@ -199,5 +200,24 @@ public interface DataApi {
     @ResponseBody
     List summaryByDtxsid(@Parameter(required = true, description = "DSSTox Substance Identifier", example = "DTXSID9026974")
                                  @PathVariable("dtxsid")String dtxsid);
+    
+    @GetMapping(value = "/aed/search/by-dtxsid/{dtxsid}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Get AED data by dtxsid", description = "Returns AED data for given DTXSID", tags = {"bioactivity", "data"})
+    @ApiResponse(responseCode = "200", description = "OK",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = AedData.class)))
+    @ResponseBody
+    List<AedData> getAedDataByDtxsid(@Parameter(required = true, example = "DTXSID5021209") @PathVariable String dtxsid);
+    
+    
+    @Operation(summary = "Batch fetch AED data by DTXSIDs", description = "Returns AED bioactivity data for a list of DTXSIDs", tags = {"bioactivity", "data"})
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "OK",
+            content = @Content(mediaType = "application/json",
+                array = @ArraySchema(schema = @Schema(implementation = AedData.class))))
+    })
+    @PostMapping(value = "/aed/search/by-dtxsid", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    List<AedData> getAedDataForBatchDtxsids(@io.swagger.v3.oas.annotations.parameters.RequestBody(required = true, description = "List of DTXSIDs")
+                                               @RequestBody List<String> dtxsids);
     
 }

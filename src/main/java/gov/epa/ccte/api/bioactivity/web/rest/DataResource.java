@@ -1,6 +1,8 @@
 package gov.epa.ccte.api.bioactivity.web.rest;
 
+import gov.epa.ccte.api.bioactivity.domain.AedData;
 import gov.epa.ccte.api.bioactivity.domain.AssayListCount;
+import gov.epa.ccte.api.bioactivity.projection.data.AedRawDataProjection;
 import gov.epa.ccte.api.bioactivity.projection.data.BioactivityDataAll;
 import gov.epa.ccte.api.bioactivity.projection.data.BioactivityDataBase;
 import gov.epa.ccte.api.bioactivity.repository.AssayListCountRepository;
@@ -10,6 +12,10 @@ import gov.epa.ccte.api.bioactivity.web.rest.error.HigherNumberOfRequestsExcepti
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.List;
 
@@ -148,6 +154,70 @@ public class DataResource implements DataApi {
         log.debug("bioactivity summary data for dtxsid = {}", dtxsid);
 
          return chemAggRepository.findByDtxsid(dtxsid);
+    }
+    
+    @Override
+    public List<AedData> getAedDataByDtxsid(String dtxsid) {
+        List<AedRawDataProjection> projections = dataRepository.findAedDataByDtxsid(dtxsid);
+        ObjectMapper mapper = new ObjectMapper();
+
+        return projections.stream().map(p -> {
+        	AedData dto = new AedData();
+            dto.setDtxsid(p.getDsstoxSubstanceId());
+            dto.setPreferredName(p.getPreferredName());
+            dto.setAeid(p.getAeid());
+
+            try {
+                JsonNode node = mapper.readTree(p.getMc7Param());
+                dto.setAedVal(mapper.convertValue(node.get("aed_val"), new TypeReference<>() {}));
+                dto.setAedType(mapper.convertValue(node.get("aed_type"), new TypeReference<>() {}));
+                dto.setHttkModel(mapper.convertValue(node.get("httk_model"), new TypeReference<>() {}));
+                dto.setAedValUnit(mapper.convertValue(node.get("aed_val_unit"), new TypeReference<>() {}));
+                dto.setHttkVersion(mapper.convertValue(node.get("httk_version"), new TypeReference<>() {}));
+                dto.setPotencyValType(mapper.convertValue(node.get("potency_val_type"), new TypeReference<>() {}));
+                dto.setInvitrodbVersion(mapper.convertValue(node.get("invitrodb_version"), new TypeReference<>() {}));
+                dto.setInterindividualVarPerc(mapper.convertValue(node.get("interindividual_var_perc"), new TypeReference<>() {}));
+            } catch (Exception e) {
+                log.error("Failed to parse mc7_param", e);
+            }
+
+            return dto;
+        }).toList();
+    }
+    
+    @Override
+    public @ResponseBody List<AedData> getAedDataForBatchDtxsids(List<String> dtxsids) {
+        log.debug("Fetching AED data for dtxsids size = {}", dtxsids.size());
+
+        if (dtxsids.size() > batchSize) {
+            throw new HigherNumberOfRequestsException(dtxsids.size(), batchSize);
+        }
+
+        List<AedRawDataProjection> results = dataRepository.findAedDataByDtxsidIn(dtxsids);
+        ObjectMapper mapper = new ObjectMapper();
+
+        return results.stream().map(p -> {
+            AedData dto = new AedData();
+            dto.setDtxsid(p.getDsstoxSubstanceId());
+            dto.setPreferredName(p.getPreferredName());
+            dto.setAeid(p.getAeid());
+
+            try {
+                JsonNode node = mapper.readTree(p.getMc7Param());
+                dto.setAedVal(mapper.convertValue(node.get("aed_val"), new TypeReference<>() {}));
+                dto.setAedType(mapper.convertValue(node.get("aed_type"), new TypeReference<>() {}));
+                dto.setHttkModel(mapper.convertValue(node.get("httk_model"), new TypeReference<>() {}));
+                dto.setAedValUnit(mapper.convertValue(node.get("aed_val_unit"), new TypeReference<>() {}));
+                dto.setHttkVersion(mapper.convertValue(node.get("httk_version"), new TypeReference<>() {}));
+                dto.setPotencyValType(mapper.convertValue(node.get("potency_val_type"), new TypeReference<>() {}));
+                dto.setInvitrodbVersion(mapper.convertValue(node.get("invitrodb_version"), new TypeReference<>() {}));
+                dto.setInterindividualVarPerc(mapper.convertValue(node.get("interindividual_var_perc"), new TypeReference<>() {}));
+            } catch (Exception e) {
+                log.error("Failed to parse mc7_param for dtxsid={}", p.getDsstoxSubstanceId(), e);
+            }
+
+            return dto;
+        }).toList();
     }
 
 }
