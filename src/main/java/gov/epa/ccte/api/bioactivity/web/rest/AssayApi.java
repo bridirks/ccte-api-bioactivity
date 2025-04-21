@@ -2,6 +2,7 @@ package gov.epa.ccte.api.bioactivity.web.rest;
 
 import gov.epa.ccte.api.bioactivity.domain.AssayAnnotation;
 import gov.epa.ccte.api.bioactivity.projection.assay.AssayAll;
+import gov.epa.ccte.api.bioactivity.projection.assay.AssayEndpointsList;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -122,4 +123,18 @@ public interface AssayApi {
     @ResponseBody
     List<?> allAssays(@RequestParam(value = "projection", required = false, defaultValue = "assay-all") String projection);
     
+    /**
+     * {@code GET  bioactivity/assay/search/by-gene/{geneSymbol}} : get assay endpoints list by gene symbol .
+     * *
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the array of asssay endpoints list.
+     */
+    @Operation(summary = "Get assay endpoints list")
+    @ApiResponses(value= {
+            @ApiResponse(responseCode = "200", description = "OK",  content = @Content( mediaType = "application/json",
+                    schema=@Schema(oneOf = {AssayEndpointsList.class}))),
+    })
+    @RequestMapping(value = "/search/by-gene/{geneSymbol}", method = RequestMethod.GET)
+    @ResponseBody
+    List<AssayEndpointsList> assayEndpointsListByGene(@Parameter(required = true, description = "Gene Symbol", example = "TUBA1A") @PathVariable("geneSymbol") String geneSymbol);
 }

@@ -1,6 +1,7 @@
 package gov.epa.ccte.api.bioactivity.web.rest;
 
 import gov.epa.ccte.api.bioactivity.projection.assay.AssayAll;
+import gov.epa.ccte.api.bioactivity.projection.assay.AssayEndpointsList;
 import gov.epa.ccte.api.bioactivity.projection.assay.CcdAssayList;
 import gov.epa.ccte.api.bioactivity.repository.*;
 import gov.epa.ccte.api.bioactivity.service.AssayService;
@@ -104,6 +105,13 @@ public class AssayResource implements AssayApi {
 		
         log.debug("aeid = {}", aeid);
         return bioactivityAggRepository.getChemicalsByAeid(aeid);
+	}
+	
+	@Override
+	public List<AssayEndpointsList> assayEndpointsListByGene(String geneSymbol) {
+		
+        log.debug("aeid = {}", geneSymbol);
+        return annotationRepository.findAssayEndpointsListByGene(geneSymbol);
 	}
 	
 }
