@@ -4,6 +4,7 @@ import gov.epa.ccte.api.bioactivity.domain.AedData;
 import gov.epa.ccte.api.bioactivity.domain.AssayListCount;
 import gov.epa.ccte.api.bioactivity.domain.ChemicalAgg;
 import gov.epa.ccte.api.bioactivity.projection.data.BioactivityDataBase;
+import gov.epa.ccte.api.bioactivity.projection.data.SummaryByTissue;
 import gov.epa.ccte.api.bioactivity.projection.data.BioactivityDataAll;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -201,6 +202,7 @@ public interface DataApi {
     List summaryByDtxsid(@Parameter(required = true, description = "DSSTox Substance Identifier", example = "DTXSID9026974")
                                  @PathVariable("dtxsid")String dtxsid);
     
+
     @GetMapping(value = "/aed/search/by-dtxsid/{dtxsid}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get AED data by dtxsid", description = "Returns AED data for given DTXSID", tags = {"bioactivity", "data"})
     @ApiResponse(responseCode = "200", description = "OK",
@@ -220,4 +222,21 @@ public interface DataApi {
     List<AedData> getAedDataForBatchDtxsids(@io.swagger.v3.oas.annotations.parameters.RequestBody(required = true, description = "List of DTXSIDs")
                                                @RequestBody List<String> dtxsids);
     
+
+    /**
+     * {@code GET  /bioactivity/data/summary/search/by-dtxsid/:dtxsid} : get bioactivity summary for the "dtxsid".
+     *
+     * @param dtxsid the matching aeid of the assays to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the Summary data.
+     */
+    @Operation(summary = "Get summary by dtxsid", description = "Return summary data for given dtxsid", tags = {"bioactivity", "data"})
+    @ApiResponses(value= {
+            @ApiResponse(responseCode = "200", description = "OK",  content = @Content( mediaType = "application/json",
+                    schema=@Schema(oneOf = {ChemicalAgg.class}))),
+    })
+    @RequestMapping(value = "/summary/search/by-tissue/",produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @ResponseBody
+    List<SummaryByTissue> summaryByDtxsidAndTissue(@Parameter(required = true, description = "DSSTox Substance Identifier", example = "DTXSID7024241")String dtxsid,
+                                 @Parameter(required = true, description = "Tissue of origin", example = "liver")String tissue);
+
 }

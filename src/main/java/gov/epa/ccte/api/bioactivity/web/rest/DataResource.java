@@ -5,6 +5,7 @@ import gov.epa.ccte.api.bioactivity.domain.AssayListCount;
 import gov.epa.ccte.api.bioactivity.projection.data.AedRawDataProjection;
 import gov.epa.ccte.api.bioactivity.projection.data.BioactivityDataAll;
 import gov.epa.ccte.api.bioactivity.projection.data.BioactivityDataBase;
+import gov.epa.ccte.api.bioactivity.projection.data.SummaryByTissue;
 import gov.epa.ccte.api.bioactivity.repository.AssayListCountRepository;
 import gov.epa.ccte.api.bioactivity.repository.BioactivityDataRepository;
 import gov.epa.ccte.api.bioactivity.repository.ChemicalAggRepository;
@@ -238,4 +239,11 @@ public class DataResource implements DataApi {
 		}).toList();
 	}
 
+    @Override
+    public @ResponseBody
+    List<SummaryByTissue> summaryByDtxsidAndTissue(String dtxsid, String tissue) {
+        log.debug("bioactivity summary data for dtxsid = {} and tissue = {}", dtxsid, tissue);
+
+         return dataRepository.findByDtxsidAndTissue(dtxsid, tissue);
+    }
 }
