@@ -38,17 +38,26 @@ public class DataResource implements DataApi {
         this.chemAggRepository = chemAggRepository;
     }
 
-    @Override
-    public @ResponseBody
-    List dataByDtxsid(String dtxsid) {
-
+    public List<?> dataByDtxsid(String dtxsid, String projection) {
         log.debug("dtxsid = {}", dtxsid);
-
-        List<BioactivityDataAll> data = dataRepository.findByDtxsid(dtxsid, BioactivityDataAll.class);
-
-        log.debug("result.size = {}", data.size());
-
-        return data;
+        
+        if (projection == null || projection.isEmpty()) {
+            List<BioactivityDataAll> data = dataRepository.findByDtxsid(dtxsid, BioactivityDataAll.class);
+            return data; 
+        }
+        
+        Object result = switch (projection) {
+        	case "toxcast-summary-plot" -> dataRepository.findToxcastSummaryPlotByDtxsid(dtxsid);
+        	default -> dataRepository.findByDtxsid(dtxsid, BioactivityDataAll.class);
+        };
+        
+        if (result instanceof List<?>) {
+            return (List<?>) result;
+        } else if (result != null) {
+            return List.of(result); 
+        } else {
+            return List.of(); 
+        }
     }
     
     @Override

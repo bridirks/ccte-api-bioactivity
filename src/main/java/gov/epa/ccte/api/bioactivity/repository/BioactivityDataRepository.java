@@ -3,6 +3,7 @@ package gov.epa.ccte.api.bioactivity.repository;
 import gov.epa.ccte.api.bioactivity.domain.BioactivityData;
 import gov.epa.ccte.api.bioactivity.projection.data.AedRawDataProjection;
 import gov.epa.ccte.api.bioactivity.projection.data.SummaryByTissue;
+import gov.epa.ccte.api.bioactivity.projection.data.ToxcastSummaryPlot;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -93,4 +94,17 @@ public interface BioactivityDataRepository extends JpaRepository<BioactivityData
             ORDER BY bio.hitc DESC;
     		""", nativeQuery = true)
     List<SummaryByTissue> findByDtxsidAndTissue(@Param("dtxsid")String dtxsid, @Param("tissue")String tissue);
+    
+    @Query(value = """
+    		SELECT
+                bio.aeid AS aeid,
+                json_array_elements(json_build_array(bio.mc5_param))->>'top_over_cutoff' AS topOverCutoff,
+                json_array_elements(json_build_array(bio.mc5_param))->>'ac50' AS AC50,
+                bio.hitc AS hitc
+            FROM 
+                invitro.mv_bioactivity bio
+            WHERE
+                bio.dsstox_substance_id = :dtxsid
+    		""", nativeQuery = true)
+    List<ToxcastSummaryPlot> findToxcastSummaryPlotByDtxsid(@Param("dtxsid")String dtxsid);
 }
