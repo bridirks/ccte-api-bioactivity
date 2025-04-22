@@ -37,16 +37,18 @@ public interface DataApi {
      * @param dtxsid the matching dtxsid of the assays to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the bioactivity data.
      */
-    @Operation(summary = "Get data by dtxsid", description = "Return data for given DTXSID", tags = {"bioactivity", "data"})
+    @Operation(summary = "Get data by dtxsid with or without projection", description = "Return data for given DTXSID", tags = {"bioactivity", "data"})
     @ApiResponses(value= {
             @ApiResponse(responseCode = "200", description = "OK",
                     content = @Content( mediaType = "application/json",
                     array = @ArraySchema(schema = @Schema(implementation = BioactivityDataBase.class))))
     })
-    @RequestMapping(value = "/search/by-dtxsid/{dtxsid}",produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    @ResponseBody
-    List dataByDtxsid(@Parameter(required = true, description = "DSSTox Substance Identifier", example = "DTXSID9026974")
-                      @PathVariable("dtxsid") String dtxsid);
+    @RequestMapping(value = "/search/by-dtxsid/{dtxsid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    List<?> dataByDtxsid(@Parameter(required = true, description = "DSSTox Substance Identifier", example = "DTXSID7020182") 
+                                         @PathVariable("dtxsid") String dtxsid,
+                             	        @Parameter(description = "Specifies if projection is used. Option: toxcast-summary-plot" +
+            	                                "If omitted, the default BioactivityDataAll data is returned.")
+            	                        @RequestParam(value = "projection", required = false) String projection);
 
     /**
      * {@code POST  /bioactivity/data/by-dtxsid/} : get bioactivity data for the batch of "dtxsids".
