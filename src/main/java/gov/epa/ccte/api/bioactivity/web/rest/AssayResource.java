@@ -114,4 +114,10 @@ public class AssayResource implements AssayApi {
         return annotationRepository.findAssayEndpointsListByGene(geneSymbol);
 	}
 	
+	@Override
+	public Long assayCount() {
+
+        return annotationRepository.count();
+	}
+	
 }

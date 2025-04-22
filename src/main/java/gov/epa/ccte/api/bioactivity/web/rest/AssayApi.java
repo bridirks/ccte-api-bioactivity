@@ -137,4 +137,14 @@ public interface AssayApi {
     @RequestMapping(value = "/search/by-gene/{geneSymbol}", method = RequestMethod.GET)
     @ResponseBody
     List<AssayEndpointsList> assayEndpointsListByGene(@Parameter(required = true, description = "Gene Symbol", example = "TUBA1A") @PathVariable("geneSymbol") String geneSymbol);
+
+    /**
+     * {@code GET  bioactivity/assay/count}} : returns total count of all assay
+     * *
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and total count of all assay
+     */
+    @RequestMapping(value = "/count", method = RequestMethod.GET)
+    @ResponseBody
+    Long assayCount();
 }
