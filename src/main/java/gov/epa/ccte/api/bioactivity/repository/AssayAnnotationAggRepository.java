@@ -94,7 +94,7 @@ public interface AssayAnnotationAggRepository extends JpaRepository<AssayAnnotat
 	List<CcdAssayGene> findGeneByAeid(@Param("aeid") Integer aeid);
 
 	@Query(value = """
-				select row_number() over (order by methodName) as orderId, assayRunType, assayRunType, methodName, description
+				select row_number() over (order by methodName) as orderId, assayRunType, assayRunType, methodName, description, levelApplied
 				from (select aeid,
 							 'multi'                    as assayRunType,
 							 2                          as levelApplied,
