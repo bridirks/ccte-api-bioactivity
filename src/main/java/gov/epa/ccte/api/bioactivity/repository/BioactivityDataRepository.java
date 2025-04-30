@@ -3,7 +3,7 @@ package gov.epa.ccte.api.bioactivity.repository;
 import gov.epa.ccte.api.bioactivity.domain.BioactivityData;
 import gov.epa.ccte.api.bioactivity.projection.data.AedRawDataProjection;
 import gov.epa.ccte.api.bioactivity.projection.data.SummaryByTissue;
-import gov.epa.ccte.api.bioactivity.projection.data.ToxcastSummaryPlot;
+import gov.epa.ccte.api.bioactivity.projection.assay.ToxcastSummaryPlot;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -47,7 +47,7 @@ public interface BioactivityDataRepository extends JpaRepository<BioactivityData
 			           b.mc7_param AS mc7Param
 			    FROM invitro.mv_bioactivity b
 			    JOIN ch.v_chemical_details d ON b.dsstox_substance_id = d.dtxsid
-			    WHERE b.dsstox_substance_id = :dtxsid
+			    WHERE b.dsstox_substance_id = :dtxsid AND b.mc7_param IS NOT NULL
 			""", nativeQuery = true)
 	List<AedRawDataProjection> findAedDataByDtxsid(@Param("dtxsid") String dtxsid);
 
@@ -58,7 +58,7 @@ public interface BioactivityDataRepository extends JpaRepository<BioactivityData
 			           b.mc7_param AS mc7Param
 			    FROM invitro.mv_bioactivity b
 			    JOIN ch.v_chemical_details d ON b.dsstox_substance_id = d.dtxsid
-			    WHERE b.dsstox_substance_id IN (:dtxsids)
+			    WHERE b.dsstox_substance_id IN (:dtxsids) AND b.mc7_param IS NOT NULL
 			    ORDER BY b.dsstox_substance_id
 			""", nativeQuery = true)
 	List<AedRawDataProjection> findAedDataByDtxsidIn(@Param("dtxsids") List<String> dtxsids);
