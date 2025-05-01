@@ -1,4 +1,4 @@
-package gov.epa.ccte.api.bioactivity.projection.data;
+package gov.epa.ccte.api.bioactivity.projection.assay;
 
 public interface ToxcastSummaryPlot {
 
