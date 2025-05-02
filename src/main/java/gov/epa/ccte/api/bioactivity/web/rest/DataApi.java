@@ -5,7 +5,6 @@ import gov.epa.ccte.api.bioactivity.domain.AssayListCount;
 import gov.epa.ccte.api.bioactivity.domain.ChemicalAgg;
 import gov.epa.ccte.api.bioactivity.projection.data.BioactivityDataBase;
 import gov.epa.ccte.api.bioactivity.projection.data.SummaryByTissue;
-import gov.epa.ccte.api.bioactivity.projection.data.ToxcastSummaryPlot;
 import gov.epa.ccte.api.bioactivity.projection.data.BioactivityDataAll;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -42,7 +41,7 @@ public interface DataApi {
     @ApiResponses(value= {
             @ApiResponse(responseCode = "200", description = "OK",
                     content = @Content( mediaType = "application/json",
-                    array = @ArraySchema(schema = @Schema(oneOf = {BioactivityDataAll.class,ToxcastSummaryPlot.class}))))
+                    array = @ArraySchema(schema = @Schema(oneOf = {BioactivityDataAll.class}))))
     })
     @RequestMapping(value = "/search/by-dtxsid/{dtxsid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     List<?> dataByDtxsid(@Parameter(required = true, description = "DSSTox Substance Identifier", example = "DTXSID7020182") 
