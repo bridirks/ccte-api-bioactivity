@@ -19,4 +19,4 @@ COPY --from=build /build/target/bioactivity-1.0.0.jar /usr/local/lib/bioactivity
 
 RUN java --version
 
-CMD ["java", "-jar", "/usr/local/lib/bioactivity-1.0.0.jar"]
+CMD ["java", "-jar", "/usr/local/lib/bioactivity-2.0.0.jar"]
